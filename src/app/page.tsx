@@ -1,8 +1,10 @@
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 export default function Home() {
   return (
     <div className="bg-background font-body text-foreground">
-      <div className="container mx-auto max-w-3xl py-24 px-4 space-y-20">
+      <div className="container mx-auto max-w-5xl py-24 px-4 space-y-20">
 
         {/* 1. Opening Statement (Hero) */}
         <section className="text-center">
@@ -22,19 +24,31 @@ export default function Home() {
         </section>
 
         {/* 3. The Three Pillars */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center border-t border-b py-16">
-          <div>
-            <h2 className="font-headline text-2xl mb-3">Padluckk World</h2>
-            <p className="text-muted-foreground">The cultural layer. A space for ideas, scenes, and creative communities to converge.</p>
-          </div>
-          <div>
-            <h2 className="font-headline text-2xl mb-3">Padluckk Studios</h2>
-            <p className="text-muted-foreground">The working arm. A production house for brand, cultural, and sound projects.</p>
-          </div>
-          <div>
-            <h2 className="font-headline text-2xl mb-3">Events</h2>
-            <p className="text-muted-foreground">The live expression. Gatherings that bring the Padluckk community together.</p>
-          </div>
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <Card className="bg-transparent border-border/50 group overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/20">
+                <CardHeader>
+                    <CardTitle className="font-headline text-2xl">Padluckk World</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">The cultural layer. A space for ideas, scenes, and creative communities to converge.</p>
+                </CardContent>
+            </Card>
+             <Card className="bg-transparent border-border/50 group overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/20">
+                <CardHeader>
+                    <CardTitle className="font-headline text-2xl">Padluckk Studios</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">The working arm. A production house for brand, cultural, and sound projects.</p>
+                </CardContent>
+            </Card>
+             <Card className="bg-transparent border-border/50 group overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/20">
+                <CardHeader>
+                    <CardTitle className="font-headline text-2xl">Events</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">The live expression. Gatherings that bring the Padluckk community together.</p>
+                </CardContent>
+            </Card>
         </section>
 
         {/* 4. Tone-Setting Statement */}
