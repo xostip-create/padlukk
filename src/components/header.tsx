@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useState } from 'react';
+import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -38,7 +39,13 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-20 items-center justify-between">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
-          <span className="font-headline text-2xl font-bold tracking-wide">PADLUCKK</span>
+          <Image
+            src="https://i.postimg.cc/s2vRfP1f/PNG-Padluckk-type-face.png"
+            alt="Padluckk logo"
+            width={140}
+            height={38}
+            priority
+          />
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
@@ -57,7 +64,13 @@ export default function Header() {
               <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
               <div className="flex flex-col gap-6 p-6">
                 <Link href="/" className="flex items-center gap-2 mb-4" prefetch={false} onClick={() => setMobileMenuOpen(false)}>
-                  <span className="font-headline text-xl font-bold tracking-wide">PADLUCKK</span>
+                  <Image
+                    src="https://i.postimg.cc/s2vRfP1f/PNG-Padluckk-type-face.png"
+                    alt="Padluckk logo"
+                    width={140}
+                    height={38}
+                    priority
+                  />
                 </Link>
                 {navLinks.map((link) => (
                   <Link
