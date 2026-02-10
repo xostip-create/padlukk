@@ -15,7 +15,7 @@ export default function WorldPage() {
         </section>
 
         {/* 2. The Elements of the World */}
-        <section className="space-y-8">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="bg-transparent border-border/50 group overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/20">
                 <CardHeader>
                     <CardTitle className="font-headline text-3xl">Music & DJ Culture</CardTitle>
