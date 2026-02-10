@@ -7,8 +7,8 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
-  title: 'Padluckk Editorial Platform',
-  description: 'A curated space for articles, photo essays, and videos on fashion, art, and music.',
+  title: 'Cultur FM',
+  description: 'A platform for music, fashion, ideas, and the people who shape them.',
 };
 
 export default function RootLayout({
@@ -21,9 +21,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Belleza&family=Literata:opsz@7..72&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
       </head>
-      <body className={cn('font-body antialiased', 'min-h-screen bg-background font-sans')}>
+      <body className={cn('font-body antialiased', 'min-h-screen bg-background')}>
         <div className="relative flex min-h-dvh flex-col bg-background">
           <Header />
           <main className="flex-1">{children}</main>
