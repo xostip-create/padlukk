@@ -1,54 +1,22 @@
 
 import ContactForm from "@/components/contact-form";
-import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <div className="bg-background">
-      <div className="container mx-auto max-w-6xl py-16 px-4">
-        <div className="text-center mb-16">
-          <h1 className="font-headline text-5xl md:text-6xl">Get in Touch</h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            We'd love to hear from you. Whether it's a content request, a question, or just a hello, don't hesitate to reach out.
+    <div className="bg-background font-body">
+      <div className="container mx-auto max-w-2xl py-16 md:py-24 px-4 space-y-12">
+        <section className="text-center">
+          <h1 className="font-headline text-5xl md:text-6xl">Connection</h1>
+          <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+            Padluckk is a community built over time through shared culture. For collaborations, content submissions, or general inquiries, please use the form below. We read everything. Your information is respected and will not be shared.
           </p>
-        </div>
+        </section>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          <div className="bg-card p-8 rounded-lg border">
-            <h2 className="font-headline text-3xl mb-6">Contact Us</h2>
+        <section>
+          <div className="max-w-xl mx-auto bg-card p-8 rounded-lg border">
             <ContactForm />
           </div>
-          <div className="space-y-8 mt-4 md:mt-0">
-            <h3 className="font-headline text-3xl">Our Info</h3>
-            <div className="flex items-start gap-4">
-              <div className="bg-primary/10 text-primary p-3 rounded-full">
-                <Mail className="h-6 w-6" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg">Email</h4>
-                <p className="text-muted-foreground">hello@padluckk.com</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="bg-primary/10 text-primary p-3 rounded-full">
-                <Phone className="h-6 w-6" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg">Phone</h4>
-                <p className="text-muted-foreground">(123) 456-7890</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="bg-primary/10 text-primary p-3 rounded-full">
-                <MapPin className="h-6 w-6" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg">Office</h4>
-                <p className="text-muted-foreground">123 Design Lane, Art City, 10001</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
     </div>
   );
