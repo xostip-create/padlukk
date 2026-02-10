@@ -1,48 +1,47 @@
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] bg-background text-foreground font-body p-4">
-      <div className="max-w-4xl w-full space-y-16 text-center">
-        <section>
-          <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl leading-none uppercase">
-            <span className="bg-highlight px-4 py-1">Signup to attend</span>
-            <br />
-            <span className="bg-highlight px-4 py-1">Cultur FM events</span>
+    <div className="bg-background font-body text-foreground">
+      <div className="container mx-auto max-w-3xl py-24 px-4 space-y-20">
+
+        {/* 1. Opening Statement (Hero) */}
+        <section className="text-center">
+          <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl leading-none">
+            Culture, Considered.
           </h1>
+          <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed">
+            A creative platform for the culturally aware.
+          </p>
         </section>
 
-        <section>
-          <form className="w-full max-w-lg mx-auto space-y-8">
-            <div className="flex flex-col md:flex-row gap-8">
-              <div className="flex-1">
-                <label htmlFor="email" className="sr-only">Email</label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                  className="w-full bg-transparent border-0 border-b-2 border-foreground rounded-none placeholder:text-foreground/70 text-lg p-2 focus:outline-none focus:ring-0 text-center"
-                />
-              </div>
-              <div className="flex-1">
-                <label htmlFor="city" className="sr-only">City</label>
-                <Input
-                  id="city"
-                  name="city"
-                  type="text"
-                  placeholder="City (e.g. Lagos)"
-                  className="w-full bg-transparent border-0 border-b-2 border-foreground rounded-none placeholder:text-foreground/70 text-lg p-2 focus:outline-none focus:ring-0 text-center"
-                />
-              </div>
-            </div>
-            <Button type="submit" size="lg" className="w-full font-nav text-2xl py-8 tracking-widest">
-              LET ME KNOW
-            </Button>
-          </form>
+        {/* 2. What Padluckk Is */}
+        <section className="text-center max-w-2xl mx-auto">
+           <p className="text-base md:text-lg leading-loose">
+            Padluckk is a creative culture platform and working studio. It is a world connecting music, fashion, ideas, and the people who shape them—through our editorial lens, production house, and live events.
+          </p>
         </section>
+
+        {/* 3. The Three Pillars */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center border-t border-b py-16">
+          <div>
+            <h2 className="font-headline text-2xl mb-3">Padluckk World</h2>
+            <p className="text-muted-foreground">The cultural layer. A space for ideas, scenes, and creative communities to converge.</p>
+          </div>
+          <div>
+            <h2 className="font-headline text-2xl mb-3">Padluckk Studios</h2>
+            <p className="text-muted-foreground">The working arm. A production house for brand, cultural, and sound projects.</p>
+          </div>
+          <div>
+            <h2 className="font-headline text-2xl mb-3">Events</h2>
+            <p className="text-muted-foreground">The live expression. Gatherings that bring the Padluckk community together.</p>
+          </div>
+        </section>
+
+        {/* 4. Tone-Setting Statement */}
+        <footer className="text-center pt-8">
+            <p className="text-muted-foreground font-headline text-lg">The first issue is always the quietest.</p>
+        </footer>
+
       </div>
     </div>
   );
