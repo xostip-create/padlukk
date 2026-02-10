@@ -18,8 +18,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Literata', 'serif'],
-        headline: ['Belleza', 'sans-serif'],
+        body: ['Federant', 'cursive'],
+        headline: ['Federant', 'cursive'],
       },
       colors: {
         background: 'hsl(var(--background))',
