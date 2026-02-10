@@ -1,3 +1,64 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-1",
+      "description": "Abstract gold and olive texture",
+      "imageUrl": "https://images.unsplash.com/photo-1540457036297-448b6b99e91c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhYnN0cmFjdCUyMHRleHR1cmV8ZW58MHx8fHwxNzcwNzA0NDgwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract texture"
+    },
+    {
+      "id": "creator-avatar-1",
+      "description": "Portrait of a female artist",
+      "imageUrl": "https://images.unsplash.com/photo-1581403341630-a6e0b9d2d257?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc3MDY0Mjg1OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman portrait"
+    },
+    {
+      "id": "creator-avatar-2",
+      "description": "Portrait of a male musician",
+      "imageUrl": "https://images.unsplash.com/photo-1607031542107-f6f46b5d54e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzA2Mjg2Mzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man portrait"
+    },
+    {
+      "id": "creator-avatar-3",
+      "description": "Portrait of a person in high fashion",
+      "imageUrl": "https://images.unsplash.com/photo-1597573783009-4b9c914107da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmYXNoaW9uJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzcwNzM0NDQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fashion portrait"
+    },
+    {
+      "id": "content-art-1",
+      "description": "Abstract sculpture",
+      "imageUrl": "https://images.unsplash.com/photo-1604654431894-9e5ca9c01cef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMHNjdWxwdHVyZXxlbnwwfHx8fDE3NzA2NzQzODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract sculpture"
+    },
+    {
+      "id": "content-fashion-1",
+      "description": "Close-up of a unique fabric",
+      "imageUrl": "https://images.unsplash.com/photo-1604147706283-d7119b5b822c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZmFicmljJTIwdGV4dHVyZXxlbnwwfHx8fDE3NzA2NTY4NjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fabric texture"
+    },
+    {
+      "id": "content-art-2",
+      "description": "Modern architecture building",
+      "imageUrl": "https://images.unsplash.com/photo-1519662978799-2f05096d3636?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzcwNzAzNTQ5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern architecture"
+    },
+    {
+      "id": "content-music-1",
+      "description": "A DJ controller at a party",
+      "imageUrl": "https://images.unsplash.com/photo-1600497900863-2dfbeedb06a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkaiUyMGNvbnRyb2xsZXJ8ZW58MHx8fHwxNzcwNzM0NDQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dj controller"
+    },
+    {
+      "id": "content-fashion-2",
+      "description": "A person wearing minimalist clothing",
+      "imageUrl": "https://images.unsplash.com/photo-1572853566605-af9816b0a77a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtaW5pbWFsaXN0JTIwZmFzaGlvbnxlbnwwfHx8fDE3NzA3MzQ0NDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "minimalist fashion"
+    },
+    {
+      "id": "content-music-2",
+      "description": "A person playing an acoustic guitar",
+      "imageUrl": "https://images.unsplash.com/photo-1610557607773-51db1458e1c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhY291c3RpYyUyMGd1aXRhcnxlbnwwfHx8fDE3NzA2OTU4MjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "acoustic guitar"
+    }
+  ]
 }
