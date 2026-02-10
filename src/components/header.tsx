@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -25,6 +24,7 @@ const navLinks = [
 
 export default function Header() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isInfoMenuOpen, setInfoMenuOpen] = useState(false);
   const pathname = usePathname();
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (
@@ -32,7 +32,7 @@ export default function Header() {
       href={href}
       onClick={() => setMobileMenuOpen(false)}
       className={cn(
-        'font-nav text-xl font-medium uppercase tracking-widest transition-colors hover:text-primary',
+        'font-nav text-2xl uppercase tracking-widest transition-colors hover:text-primary',
         pathname === href ? 'text-primary' : 'text-foreground'
       )}
     >
@@ -50,13 +50,19 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-6">
           <NavLink href="/mixes" label="Mixes" />
           <NavLink href="/events" label="Events" />
-          <DropdownMenu>
+          <DropdownMenu open={isInfoMenuOpen} onOpenChange={setInfoMenuOpen}>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-1 font-nav text-xl font-medium uppercase tracking-widest transition-colors hover:text-primary">
+              <button
+                onMouseEnter={() => setInfoMenuOpen(true)}
+                className="flex items-center gap-1 font-nav text-2xl uppercase tracking-widest transition-colors hover:text-primary"
+              >
                 Info <ChevronDown className="h-5 w-5" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-background border-foreground">
+            <DropdownMenuContent
+              onMouseLeave={() => setInfoMenuOpen(false)}
+              className="bg-background border-foreground"
+            >
               <DropdownMenuItem asChild><Link href="/world">About</Link></DropdownMenuItem>
               <DropdownMenuItem asChild><Link href="/studios">Studios</Link></DropdownMenuItem>
             </DropdownMenuContent>
