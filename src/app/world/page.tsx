@@ -1,4 +1,6 @@
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 export default function WorldPage() {
   return (
     <div className="bg-background text-foreground font-body">
@@ -13,41 +15,61 @@ export default function WorldPage() {
         </section>
 
         {/* 2. The Elements of the World */}
-        <section className="space-y-12">
-          <div>
-            <h2 className="font-headline text-3xl mb-3">Music & DJ Culture</h2>
-            <p className="text-muted-foreground max-w-2xl leading-relaxed">
-              Sounds from the underground, broadcast from basements and warehouses. The DJs, collectors, and labels building the communities that define our nights.
-            </p>
-          </div>
+        <section className="space-y-8">
+            <Card className="bg-transparent border-border/50 group overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/20">
+                <CardHeader>
+                    <CardTitle className="font-headline text-3xl">Music & DJ Culture</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                    Sounds from the underground, broadcast from basements and warehouses. The DJs, collectors, and labels building the communities that define our nights.
+                    </p>
+                </CardContent>
+            </Card>
 
-          <div>
-            <h2 className="font-headline text-3xl mb-3">Fashion & Boutiques</h2>
-            <p className="text-muted-foreground max-w-2xl leading-relaxed">
-              The independent designers and curated spaces shaping our visual language. Garments as artifacts, boutiques as galleries.
-            </p>
-          </div>
+            <Card className="bg-transparent border-border/50 group overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/20">
+                <CardHeader>
+                    <CardTitle className="font-headline text-3xl">Fashion & Boutiques</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                    The independent designers and curated spaces shaping our visual language. Garments as artifacts, boutiques as galleries.
+                    </p>
+                </CardContent>
+            </Card>
 
-          <div>
-            <h2 className="font-headline text-3xl mb-3">Creative Practice</h2>
-            <p className="text-muted-foreground max-w-2xl leading-relaxed">
-              Behind the finished work lies the process. The studios, the tools, the discipline, and the quiet moments of inspiration that drive creators forward.
-            </p>
-          </div>
+            <Card className="bg-transparent border-border/50 group overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/20">
+                <CardHeader>
+                    <CardTitle className="font-headline text-3xl">Creative Practice</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                    Behind the finished work lies the process. The studios, the tools, the discipline, and the quiet moments of inspiration that drive creators forward.
+                    </p>
+                </CardContent>
+            </Card>
 
-          <div>
-            <h2 className="font-headline text-3xl mb-3">Ideas & Dialogue</h2>
-            <p className="text-muted-foreground max-w-2xl leading-relaxed">
-              Conversations that move culture. The zines, the roundtables, and the late-night debates that challenge assumptions and propose new ways of seeing.
-            </p>
-          </div>
+            <Card className="bg-transparent border-border/50 group overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/20">
+                <CardHeader>
+                    <CardTitle className="font-headline text-3xl">Ideas & Dialogue</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                    Conversations that move culture. The zines, the roundtables, and the late-night debates that challenge assumptions and propose new ways of seeing.
+                    </p>
+                </CardContent>
+            </Card>
 
-          <div>
-            <h2 className="font-headline text-3xl mb-3">Community & Connection</h2>
-            <p className="text-muted-foreground max-w-2xl leading-relaxed">
-              Culture is communal. It is the shared experience of a record, a look, a conversation. The connections that turn individual moments into a collective memory.
-            </p>
-          </div>
+            <Card className="bg-transparent border-border/50 group overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/20">
+                <CardHeader>
+                    <CardTitle className="font-headline text-3xl">Community & Connection</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                    Culture is communal. It is the shared experience of a record, a look, a conversation. The connections that turn individual moments into a collective memory.
+                    </p>
+                </CardContent>
+            </Card>
         </section>
 
         {/* 3. How the World Grows */}
