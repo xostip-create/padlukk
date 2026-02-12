@@ -1,6 +1,5 @@
 
 import Image from 'next/image';
-import RsvpForm from '@/components/rsvp-form';
 
 export default function EventsPage() {
   return (
@@ -31,8 +30,19 @@ export default function EventsPage() {
               <div className="space-y-4">
                 <h3 className="font-headline text-2xl tracking-tight">Theme: Creating while uncertain</h3>
                 <p className="text-muted-foreground">Limited entry. RSVP required.</p>
-                <div className="pt-4">
-                  <RsvpForm />
+                <div className="pt-4 w-full max-w-lg mx-auto">
+                  {/*
+                    To embed your Google Form:
+                    1. Open your Google Form and click the "Send" button.
+                    2. Select the "<>" (Embed HTML) tab.
+                    3. Copy the iframe code provided.
+                    4. Replace this entire comment block and the placeholder div below with your copied iframe code.
+                    You may need to adjust the width="100%" and height attributes in the iframe for best results.
+                  */}
+                  <div className="w-full h-96 bg-muted/50 rounded-lg flex flex-col items-center justify-center text-center p-4">
+                     <p className="text-muted-foreground font-medium">Your Google Form will be embedded here.</p>
+                     <p className="text-sm text-muted-foreground mt-2">Please follow the instructions in the code comments to add your form.</p>
+                  </div>
                 </div>
               </div>
             </div>
