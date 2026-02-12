@@ -32,9 +32,9 @@ export default function EventsPage() {
                 <p className="text-muted-foreground">Limited entry. RSVP required.</p>
                 <div className="pt-4 w-full max-w-lg mx-auto">
                   <iframe 
-                    src="https://docs.google.com/forms/d/e/1FAIpQLScu5lqC1g9ZeyfMAzSFX9VK_m2i7Z_sMCjOLZ2ke-bxfKdKUQ/viewform?embedded=true" 
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSfWgRV-PkfxvVo9hxaws6-DAjaETZ9lLuhIuqL3yMGWvB-_YQ/viewform?embedded=true" 
                     width="100%" 
-                    height="240" 
+                    height="451" 
                     frameBorder="0" 
                     marginHeight="0" 
                     marginWidth="0"
