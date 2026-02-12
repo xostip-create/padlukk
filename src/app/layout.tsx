@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import AppProvider from '@/components/app-provider';
+import CookieConsent from '@/components/cookie-consent';
 
 export const metadata: Metadata = {
   title: 'Padluckk',
@@ -32,6 +33,7 @@ export default function RootLayout({
             <Footer />
           </div>
           <Toaster />
+          <CookieConsent />
         </AppProvider>
       </body>
     </html>
