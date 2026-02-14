@@ -1,5 +1,6 @@
 
 import Image from 'next/image';
+import RsvpForm from '@/components/rsvp-form';
 
 export default function EventsPage() {
   return (
@@ -30,17 +31,8 @@ export default function EventsPage() {
               <div className="space-y-4">
                 <h3 className="font-headline text-2xl tracking-tight">Theme: Creating while uncertain</h3>
                 <p className="text-muted-foreground">Limited entry. RSVP required.</p>
-                <div className="pt-4 w-full max-w-lg mx-auto">
-                  <iframe 
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSfWgRV-PkfxvVo9hxaws6-DAjaETZ9lLuhIuqL3yMGWvB-_YQ/viewform?embedded=true" 
-                    width="100%" 
-                    height="451" 
-                    frameBorder="0" 
-                    marginHeight="0" 
-                    marginWidth="0"
-                  >
-                    Loading…
-                  </iframe>
+                <div className="pt-4 w-full max-w-sm mx-auto">
+                  <RsvpForm />
                 </div>
               </div>
             </div>
