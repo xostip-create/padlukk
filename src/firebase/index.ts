@@ -1,4 +1,3 @@
-
 'use client';
 import { getApp, getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
@@ -9,7 +8,6 @@ import { useDoc } from './firestore/use-doc';
 import { useUser } from './auth/use-user';
 import { 
     FirebaseProvider, 
-    FirebaseClientProvider,
     useFirebase,
     useFirebaseApp,
     useFirestore,
@@ -36,7 +34,6 @@ function initializeFirebase() {
 export { 
     initializeFirebase,
     FirebaseProvider,
-    FirebaseClientProvider,
     useCollection,
     useDoc,
     useUser,
