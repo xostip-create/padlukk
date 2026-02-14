@@ -2,18 +2,18 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/firebase';
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Chrome } from 'lucide-react';
-import Link from 'next/link';
+import { Loader2 } from 'lucide-react';
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPending, setIsPending] = useState(false);
@@ -21,34 +21,17 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const handleEmailSignIn = async (e: React.FormEvent) => {
+  const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!auth) return;
     setIsPending(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push('/admin/rsvps');
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.push('/admin');
     } catch (error: any) {
       toast({
         variant: 'destructive',
-        title: 'Authentication Failed',
-        description: error.message,
-      });
-      setIsPending(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    if (!auth) return;
-    setIsPending(true);
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      router.push('/admin/rsvps');
-    } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Authentication Failed',
+        title: 'Sign-up Failed',
         description: error.message,
       });
       setIsPending(false);
@@ -59,11 +42,11 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] py-12 px-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <CardTitle className="font-headline text-3xl">Admin Access</CardTitle>
-          <CardDescription>Sign in to manage your website.</CardDescription>
+          <CardTitle className="font-headline text-3xl">Create Admin Account</CardTitle>
+          <CardDescription>Enter your details to create an account.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleEmailSignIn} className="space-y-4">
+          <form onSubmit={handleEmailSignUp} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -89,31 +72,17 @@ export default function LoginPage() {
             </div>
             <Button type="submit" className="w-full" disabled={isPending || !auth}>
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Sign In
+              Sign Up
             </Button>
           </form>
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div>
-          <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={isPending || !auth}>
-            {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Chrome className="mr-2 h-4 w-4" />}
-            Sign in with Google
-          </Button>
         </CardContent>
         <CardFooter className="justify-center text-sm">
-            <p className="text-muted-foreground">
-                Don't have an account?{' '}
-                <Link href="/signup" className="text-primary hover:underline">
-                    Sign Up
-                </Link>
-            </p>
+          <p className="text-muted-foreground">
+            Already have an account?{' '}
+            <Link href="/login" className="text-primary hover:underline">
+              Sign In
+            </Link>
+          </p>
         </CardFooter>
       </Card>
     </div>
