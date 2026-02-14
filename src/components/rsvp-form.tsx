@@ -5,12 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useTransition } from 'react';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useFirestore } from '@/firebase';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { handleRsvpSubmission } from '@/app/events/actions';
 import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
@@ -22,6 +23,7 @@ type FormValues = z.infer<typeof formSchema>;
 export default function RsvpForm() {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const firestore = useFirestore();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -31,20 +33,33 @@ export default function RsvpForm() {
   });
 
   async function onSubmit(values: FormValues) {
-    startTransition(async () => {
-      const result = await handleRsvpSubmission(values);
+    if (!firestore) {
+        toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'Database not configured. Please try again later.',
+        });
+        return;
+    }
 
-      if (result.success) {
+    startTransition(async () => {
+      try {
+        await addDoc(collection(firestore, 'rsvps'), {
+            email: values.email,
+            createdAt: serverTimestamp(),
+        });
+
         toast({
           title: 'RSVP Received!',
-          description: result.message,
+          description: 'Thank you for your RSVP! We will be in touch.',
         });
         form.reset();
-      } else {
+      } catch (error) {
+        console.error("Error adding document: ", error);
         toast({
           variant: 'destructive',
           title: 'Error',
-          description: result.message || 'An error occurred. Please try again.',
+          description: 'An error occurred. Please try again.',
         });
       }
     });
@@ -66,7 +81,7 @@ export default function RsvpForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={isPending}>
+        <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={isPending || !firestore}>
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isPending ? 'Submitting...' : 'RSVP to join the table'}
         </Button>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -15,6 +16,7 @@ const navLinks = [
   { href: '/studios', label: 'Studios' },
   { href: '/events', label: 'Events' },
   { href: '/creators', label: 'Creators' },
+  { href: '/admin/rsvps', label: 'Admin' },
   { href: '/contact', label: 'Contact' },
 ];
 

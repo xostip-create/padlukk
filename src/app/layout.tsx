@@ -7,6 +7,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import AppProvider from '@/components/app-provider';
 import CookieConsent from '@/components/cookie-consent';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 export const metadata: Metadata = {
   title: 'Padluckk',
@@ -26,15 +27,17 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Federant&display=swap" rel="stylesheet" />
       </head>
       <body className={cn('font-body antialiased', 'min-h-screen bg-background')}>
-        <AppProvider>
-          <div className="relative flex min-h-dvh flex-col bg-background">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-          <Toaster />
-          <CookieConsent />
-        </AppProvider>
+        <FirebaseClientProvider>
+          <AppProvider>
+            <div className="relative flex min-h-dvh flex-col bg-background">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+            <Toaster />
+            <CookieConsent />
+          </AppProvider>
+        </FirebaseClientProvider>
       </body>
     </html>
   );
