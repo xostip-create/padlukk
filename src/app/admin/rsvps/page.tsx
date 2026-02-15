@@ -1,12 +1,13 @@
 
 'use client';
 import { useMemo } from 'react';
+import Link from 'next/link';
 import { useCollection } from '@/firebase/firestore/use-collection';
 import { format } from 'date-fns';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Download, FileDown, Loader2 } from 'lucide-react';
+import { Download, FileDown, Loader2, Inbox } from 'lucide-react';
 import { unparse } from 'papaparse';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -93,7 +94,18 @@ export default function RsvpsAdminPage() {
       {error && <p className="text-destructive text-center">Error loading RSVPs: {error.message}</p>}
 
       {!loading && !error && (!rsvps || rsvps.length === 0) && (
-        <p className="text-muted-foreground text-center py-16">No RSVP submissions yet.</p>
+        <div className="text-center py-16 px-4 bg-card border rounded-lg shadow-sm mt-8">
+            <div className="flex justify-center mb-4">
+                <Inbox className="h-12 w-12 text-muted-foreground" />
+            </div>
+            <h2 className="text-xl font-semibold text-foreground">Nothing here yet</h2>
+            <p className="text-muted-foreground mt-2 max-w-md mx-auto">
+                It looks like there are no RSVP submissions. Once an RSVP is submitted from the events page, it will show up here.
+            </p>
+            <Button asChild className="mt-6">
+                <Link href="/events">Go to Events Page</Link>
+            </Button>
+        </div>
       )}
 
       {!loading && !error && rsvps && rsvps.length > 0 && (
