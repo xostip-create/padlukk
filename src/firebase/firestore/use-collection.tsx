@@ -10,11 +10,12 @@ import {
   limit,
   startAt,
   endAt,
-  type Firestore,
   type DocumentData,
   type Query,
 } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
+import { FirestorePermissionError } from '@/firebase/errors';
+import { errorEmitter } from '@/firebase/error-emitter';
 
 interface UseCollectionOptions {
   where?: [string, any, any];
@@ -69,16 +70,24 @@ export function useCollection<T extends DocumentData>(
           setLoading(false);
         },
         (err) => {
-          console.error(err);
-          setError(err);
+          const permissionError = new FirestorePermissionError({
+            path: collectionName,
+            operation: 'list',
+          });
+          errorEmitter.emit('permission-error', permissionError);
+          setError(permissionError);
           setLoading(false);
         }
       );
 
       return () => unsubscribe();
     } catch (err: any) {
-        console.error(err);
-        setError(err);
+        const permissionError = new FirestorePermissionError({
+            path: collectionName,
+            operation: 'list',
+        });
+        errorEmitter.emit('permission-error', permissionError);
+        setError(permissionError);
         setLoading(false);
     }
   }, [collectionName, firestore, JSON.stringify(options)]); // Deep compare options

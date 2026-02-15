@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { useTransition } from 'react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
+import { FirestorePermissionError } from '@/firebase/errors';
+import { errorEmitter } from '@/firebase/error-emitter';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -42,26 +44,33 @@ export default function RsvpForm() {
         return;
     }
 
-    startTransition(async () => {
-      try {
-        await addDoc(collection(firestore, 'rsvps'), {
-            email: values.email,
-            createdAt: serverTimestamp(),
+    startTransition(() => {
+      const rsvpData = {
+          email: values.email,
+          createdAt: serverTimestamp(),
+      };
+      
+      addDoc(collection(firestore, 'rsvps'), rsvpData)
+        .then(() => {
+            toast({
+              title: 'RSVP Received!',
+              description: 'Thank you for your RSVP! We will be in touch.',
+            });
+            form.reset();
+        })
+        .catch((error) => {
+            const permissionError = new FirestorePermissionError({
+                path: 'rsvps',
+                operation: 'create',
+                requestResourceData: { email: values.email },
+            });
+            errorEmitter.emit('permission-error', permissionError);
+            toast({
+              variant: 'destructive',
+              title: 'Error',
+              description: 'An error occurred. Please try again.',
+            });
         });
-
-        toast({
-          title: 'RSVP Received!',
-          description: 'Thank you for your RSVP! We will be in touch.',
-        });
-        form.reset();
-      } catch (error) {
-        console.error("Error adding document: ", error);
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: 'An error occurred. Please try again.',
-        });
-      }
     });
   }
 

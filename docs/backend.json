@@ -1,0 +1,46 @@
+
+{
+  "entities": {
+    "rsvp": {
+      "title": "RSVP",
+      "description": "An RSVP submission for an event.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the person RSVPing."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the RSVP was submitted."
+        }
+      },
+      "required": ["email", "createdAt"]
+    },
+    "userProfile": {
+        "title": "User Profile",
+        "description": "A user's public profile information.",
+        "type": "object",
+        "properties": {}
+    }
+  },
+  "auth": {
+    "providers": ["email", "google.com"]
+  },
+  "firestore": {
+    "/rsvps/{rsvpId}": {
+      "schema": {
+        "$ref": "#/entities/rsvp"
+      },
+      "description": "Collection of RSVP submissions."
+    },
+    "/users/{userId}": {
+        "schema": {
+            "$ref": "#/entities/userProfile"
+        },
+        "description": "User profile documents, keyed by user ID."
+    }
+  }
+}
