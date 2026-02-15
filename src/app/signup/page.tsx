@@ -31,7 +31,7 @@ export default function SignupPage() {
     } catch (error: any) {
       toast({
         variant: 'destructive',
-        title: 'Sign-up Failed',
+        title: 'Sign up Failed',
         description: error.message,
       });
       setIsPending(false);

@@ -13,7 +13,7 @@ export default function Footer() {
             height={33}
           />
         </Link>
-        <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Padluckk Inc. A long-term cultural project.</p>
+        <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Padluckk Inc. A long term cultural project.</p>
         <div className="flex items-center gap-4">
             <Link href="/world" className="text-sm text-muted-foreground hover:text-foreground">World</Link>
             <Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground">Contact</Link>

@@ -55,7 +55,7 @@ export default function WorldPage() {
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground leading-relaxed">
-                    Conversations that move culture. The zines, the roundtables, and the late-night debates that challenge assumptions and propose new ways of seeing.
+                    Conversations that move culture. The zines, the roundtables, and the late night debates that challenge assumptions and propose new ways of seeing.
                     </p>
                 </CardContent>
             </Card>
