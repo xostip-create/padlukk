@@ -1,5 +1,4 @@
-// It's safe to expose this configuration to the client
-// Firebase security rules will handle authentication and authorization
+
 export const firebaseConfig = {
   apiKey: "AIzaSyAXNF_LsSgMO7RmQtraARIrMlGElPuG2IY",
   authDomain: "barsales-272a3.firebaseapp.com",

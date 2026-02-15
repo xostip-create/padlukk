@@ -3,19 +3,8 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Users can only read and write their own data.
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-
-    // Allow anyone to create an RSVP if they provide a valid email
-    // and the createdAt timestamp is the server time.
-    // Allow only authenticated users (admins) to read or delete RSVPs.
-    match /rsvps/{rsvpId} {
-      allow create: if request.resource.data.email is string
-                    && request.resource.data.keys().hasAll(['email', 'createdAt'])
-                    && request.resource.data.createdAt == request.time;
-      allow read, delete: if request.auth != null;
+    match /{document=**} {
+      allow read, write: if request.time < timestamp.date(2026, 2, 11);
     }
   }
 }
