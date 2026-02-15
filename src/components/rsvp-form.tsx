@@ -44,12 +44,12 @@ export default function RsvpForm() {
         return;
     }
 
+    const rsvpData = {
+        email: values.email,
+        createdAt: serverTimestamp(),
+    };
+
     startTransition(() => {
-      const rsvpData = {
-          email: values.email,
-          createdAt: serverTimestamp(),
-      };
-      
       addDoc(collection(firestore, 'rsvps'), rsvpData)
         .then(() => {
             toast({
@@ -62,7 +62,10 @@ export default function RsvpForm() {
             const permissionError = new FirestorePermissionError({
                 path: 'rsvps',
                 operation: 'create',
-                requestResourceData: { email: values.email },
+                requestResourceData: {
+                  email: values.email,
+                  createdAt: '(server timestamp)',
+                },
             });
             errorEmitter.emit('permission-error', permissionError);
             toast({
