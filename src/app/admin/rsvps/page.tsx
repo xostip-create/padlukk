@@ -1,4 +1,3 @@
-
 'use client';
 import { useMemo } from 'react';
 import Link from 'next/link';
@@ -70,7 +69,7 @@ export default function RsvpsAdminPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-4xl py-12 px-4">
+    <div className="max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="font-headline text-4xl">RSVP Submissions</h1>
         <div className="flex gap-2">
@@ -98,9 +97,9 @@ export default function RsvpsAdminPage() {
             <div className="flex justify-center mb-4">
                 <Inbox className="h-12 w-12 text-muted-foreground" />
             </div>
-            <h2 className="text-xl font-semibold text-foreground">Nothing here yet</h2>
+            <h2 className="text-xl font-semibold text-foreground">No Submissions</h2>
             <p className="text-muted-foreground mt-2 max-w-md mx-auto">
-                It looks like there are no RSVP submissions. Once an RSVP is submitted from the events page, it will show up here.
+                Once an RSVP is submitted, it will appear here.
             </p>
             <Button asChild className="mt-6">
                 <Link href="/events">Go to Events Page</Link>

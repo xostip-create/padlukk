@@ -24,6 +24,37 @@
         "description": "A user's public profile information.",
         "type": "object",
         "properties": {}
+    },
+    "event": {
+      "title": "Event",
+      "description": "An event created by an admin.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the event."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the event."
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time of the event."
+        },
+        "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL of the event's image."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the event was created."
+        }
+      },
+      "required": ["title", "description", "date", "imageUrl", "createdAt"]
     }
   },
   "auth": {
@@ -41,6 +72,12 @@
             "$ref": "#/entities/userProfile"
         },
         "description": "User profile documents, keyed by user ID."
+    },
+    "/events/{eventId}": {
+      "schema": {
+        "$ref": "#/entities/event"
+      },
+      "description": "Collection of events."
     }
   }
 }
