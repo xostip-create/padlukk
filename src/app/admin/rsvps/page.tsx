@@ -1,3 +1,4 @@
+
 'use client';
 import { useMemo } from 'react';
 import Link from 'next/link';
@@ -6,14 +7,18 @@ import { format } from 'date-fns';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Download, FileDown, Loader2, Inbox } from 'lucide-react';
+import { Download, FileDown, Loader2, Inbox, ExternalLink } from 'lucide-react';
 import { unparse } from 'papaparse';
-import jsPDF from 'jspdf';
+import jspdf from 'jspdf';
 import 'jspdf-autotable';
 
 interface Rsvp {
   id: string;
+  fullName: string;
   email: string;
+  socialHandle: string;
+  creativeField: string;
+  location: string;
   createdAt: {
     seconds: number;
     nanoseconds: number;
@@ -38,7 +43,11 @@ export default function RsvpsAdminPage() {
   const exportToCsv = () => {
     if (!rsvps) return;
     const csvData = rsvps.map(r => ({
+      name: r.fullName,
       email: r.email,
+      social: r.socialHandle,
+      field: r.creativeField,
+      location: r.location,
       date: r.createdAt ? format(new Date(r.createdAt.seconds * 1000), 'yyyy-MM-dd HH:mm:ss') : 'N/A',
     }));
     const csv = unparse(csvData);
@@ -55,12 +64,16 @@ export default function RsvpsAdminPage() {
 
   const exportToPdf = () => {
     if (!rsvps) return;
-    const doc = new jsPDF();
+    const doc = new jspdf();
     doc.text('RSVP Submissions', 14, 16);
     (doc as any).autoTable({
-        head: [['Email', 'Date']],
+        head: [['Name', 'Email', 'Social', 'Field', 'Location', 'Date']],
         body: rsvps.map(r => [
+            r.fullName,
             r.email,
+            r.socialHandle,
+            r.creativeField,
+            r.location,
             r.createdAt ? format(new Date(r.createdAt.seconds * 1000), 'yyyy-MM-dd HH:mm:ss') : 'N/A'
         ]),
         startY: 20
@@ -69,7 +82,7 @@ export default function RsvpsAdminPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="font-headline text-4xl">RSVP Submissions</h1>
         <div className="flex gap-2">
@@ -115,24 +128,43 @@ export default function RsvpsAdminPage() {
                 {format(new Date(date), 'MMMM d, yyyy')} ({rsvpsOnDate.length})
               </AccordionTrigger>
               <AccordionContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Time</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {rsvpsOnDate.map((rsvp) => (
-                      <TableRow key={rsvp.id}>
-                        <TableCell>{rsvp.email}</TableCell>
-                        <TableCell>
-                          {rsvp.createdAt ? format(new Date(rsvp.createdAt.seconds * 1000), 'HH:mm:ss') : 'N/A'}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                <div className="rounded-md border overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Email</TableHead>
+                          <TableHead>Social</TableHead>
+                          <TableHead>Field</TableHead>
+                          <TableHead>Location</TableHead>
+                          <TableHead>Time</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {rsvpsOnDate.map((rsvp) => (
+                          <TableRow key={rsvp.id}>
+                            <TableCell className="font-medium">{rsvp.fullName}</TableCell>
+                            <TableCell>{rsvp.email}</TableCell>
+                            <TableCell>
+                                <a 
+                                    href={rsvp.socialHandle} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="text-primary hover:underline flex items-center gap-1"
+                                >
+                                    Profile <ExternalLink className="h-3 w-3" />
+                                </a>
+                            </TableCell>
+                            <TableCell>{rsvp.creativeField}</TableCell>
+                            <TableCell>{rsvp.location}</TableCell>
+                            <TableCell className="text-muted-foreground">
+                              {rsvp.createdAt ? format(new Date(rsvp.createdAt.seconds * 1000), 'HH:mm:ss') : 'N/A'}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                </div>
               </AccordionContent>
             </AccordionItem>
           ))}
