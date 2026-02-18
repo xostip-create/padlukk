@@ -1,10 +1,9 @@
-
 'use client';
 
 import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Loader2, Mail, CalendarDays, LogOut, Users } from 'lucide-react';
+import { Loader2, Mail, CalendarDays, LogOut, Users, Settings, User, Bell } from 'lucide-react';
 import {
   SidebarProvider,
   Sidebar,
@@ -15,10 +14,12 @@ import {
   SidebarMenuButton,
   SidebarInset,
   SidebarFooter,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/firebase';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const AdminSidebar = () => {
   const pathname = usePathname();
@@ -41,7 +42,7 @@ const AdminSidebar = () => {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-4 p-2">
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 width="24" 
@@ -52,7 +53,7 @@ const AdminSidebar = () => {
                 strokeWidth="1.5" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
-                className="shrink-0"
+                className="shrink-0 text-primary"
             >
                 <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
@@ -94,6 +95,44 @@ const AdminSidebar = () => {
   );
 };
 
+const AdminHeader = () => {
+  const { user } = useUser();
+  const pathname = usePathname();
+  
+  const getPageTitle = () => {
+    if (pathname.includes('/admin/rsvps')) return 'RSVP Submissions';
+    if (pathname.includes('/admin/memberships')) return 'Membership Applications';
+    if (pathname.includes('/admin/events')) return 'Events Management';
+    return 'Dashboard';
+  };
+
+  return (
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <SidebarTrigger className="md:hidden" />
+      <div className="flex flex-1 items-center gap-4">
+        <h2 className="text-lg font-semibold font-headline tracking-tight">{getPageTitle()}</h2>
+      </div>
+      <div className="flex items-center gap-4">
+        <Button variant="ghost" size="icon" className="text-muted-foreground">
+          <Bell className="h-5 w-5" />
+        </Button>
+        <Button variant="ghost" size="icon" className="text-muted-foreground">
+          <Settings className="h-5 w-5" />
+        </Button>
+        <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center overflow-hidden border">
+           {user?.photoURL ? (
+             <Avatar className="h-full w-full">
+               <AvatarImage src={user.photoURL} alt={user.displayName || 'User'} />
+               <AvatarFallback>{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
+             </Avatar>
+           ) : (
+             <User className="h-5 w-5 text-muted-foreground" />
+           )}
+        </div>
+      </div>
+    </header>
+  );
+};
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useUser();
@@ -117,6 +156,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <SidebarProvider>
         <AdminSidebar />
         <SidebarInset>
+            <AdminHeader />
             <div className="p-4 md:p-6 lg:p-8">
                 {children}
             </div>

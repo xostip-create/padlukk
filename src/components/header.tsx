@@ -18,6 +18,11 @@ export default function Header() {
   const auth = useAuth();
   const router = useRouter();
 
+  // Hide the public header on admin routes
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
   const handleSignOut = async () => {
     if (auth) {
       await auth.signOut();
