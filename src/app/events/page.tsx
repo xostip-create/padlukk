@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -24,7 +25,7 @@ export default function EventsPage() {
         <section className="text-center">
           <h1 className="font-headline text-5xl md:text-6xl mb-6">Gatherings</h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            Events are the live expression of the Padluckk world—carefully produced moments where our community can connect in physical and digital spaces.
+            Events are the live expression of the Padluckk world - carefully produced moments where our community can connect in physical and digital spaces.
           </p>
         </section>
 

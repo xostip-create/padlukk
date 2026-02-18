@@ -10,7 +10,7 @@ export default function WorldPage() {
         <section className="text-center">
           <h1 className="font-headline text-5xl md:text-6xl mb-6">Padluckk World</h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            This is not a platform; it is a world. A space where culture is lived, shared, and shaped over time—through people, scenes, and the spaces in between.
+            This is not a platform; it is a world. A space where culture is lived, shared, and shaped over time - through people, scenes, and the spaces in between.
           </p>
         </section>
 

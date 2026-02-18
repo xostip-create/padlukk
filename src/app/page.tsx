@@ -19,7 +19,7 @@ export default function Home() {
         {/* 2. What Padluckk Is */}
         <section className="text-center max-w-2xl mx-auto">
            <p className="text-base md:text-lg leading-loose">
-            Padluckk is a creative culture platform and working studio. It is a world connecting music, fashion, ideas, and the people who shape them—through our editorial lens, production house, and live events.
+            Padluckk is a creative culture platform and working studio. It is a world connecting music, fashion, ideas, and the people who shape them - through our editorial lens, production house, and live events.
           </p>
         </section>
 
