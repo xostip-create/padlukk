@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="border-t">
+    <footer className="border-t border-border/40 bg-background/50">
       <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <Image
@@ -11,6 +11,7 @@ export default function Footer() {
             alt="Padluckk logo"
             width={120}
             height={33}
+            className="invert brightness-200 opacity-80 hover:opacity-100 transition-opacity"
           />
         </Link>
         <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Padluckk Inc. A long term cultural project.</p>

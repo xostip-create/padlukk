@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -49,7 +48,7 @@ export default function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-20 items-center justify-between">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <Image
@@ -58,6 +57,7 @@ export default function Header() {
             width={140}
             height={38}
             priority
+            className="invert brightness-200"
           />
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
@@ -93,6 +93,7 @@ export default function Header() {
                     width={140}
                     height={38}
                     priority
+                    className="invert brightness-200"
                   />
                 </Link>
                 {navLinks.map((link) => (
