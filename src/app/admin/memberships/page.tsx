@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button';
 import { Download, FileDown, Loader2, Inbox, ExternalLink } from 'lucide-react';
 import { unparse } from 'papaparse';
-import jsPDF from 'jsPDF';
+import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 interface MembershipApplication {
