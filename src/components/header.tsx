@@ -30,7 +30,6 @@ export default function Header() {
     { href: '/studios', label: 'Studios' },
     { href: '/events', label: 'Events' },
     { href: '/creators', label: 'Creators' },
-    ...(user ? [{ href: '/admin', label: 'Admin' }] : []),
     { href: '/contact', label: 'Membership' },
   ];
 
