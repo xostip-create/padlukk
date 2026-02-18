@@ -1,10 +1,9 @@
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useTransition, useState, useEffect } from 'react';
+import { useTransition } from 'react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
 import { FirestorePermissionError } from '@/firebase/errors';
@@ -21,7 +20,6 @@ const formSchema = z.object({
   socialHandle: z.string().min(3, { message: 'Please provide an Instagram or TikTok handle.' }),
   creativeField: z.string().min(2, { message: 'Please specify your creative field.' }),
   location: z.string().min(2, { message: 'Please specify your State/City.' }),
-  captcha: z.string().min(1, { message: 'Please solve the captcha.' }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -30,13 +28,6 @@ export default function MembershipForm() {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const firestore = useFirestore();
-  const [captcha, setCaptcha] = useState({ a: 0, b: 0, answer: 0 });
-
-  useEffect(() => {
-    const a = Math.floor(Math.random() * 10) + 1;
-    const b = Math.floor(Math.random() * 10) + 1;
-    setCaptcha({ a, b, answer: a + b });
-  }, []);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -45,22 +36,11 @@ export default function MembershipForm() {
       socialHandle: '',
       creativeField: '',
       location: '',
-      captcha: '',
     },
   });
 
   async function onSubmit(values: FormValues) {
     if (!firestore) return;
-
-    const isCaptchaCorrect = parseInt(values.captcha, 10) === captcha.answer;
-    if (!isCaptchaCorrect) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'Incorrect captcha answer.',
-      });
-      return;
-    }
 
     startTransition(() => {
       const applicationData = {
@@ -78,9 +58,6 @@ export default function MembershipForm() {
             description: 'Thank you for your application! The community will review it shortly.',
           });
           form.reset();
-          const a = Math.floor(Math.random() * 10) + 1;
-          const b = Math.floor(Math.random() * 10) + 1;
-          setCaptcha({ a, b, answer: a + b });
         })
         .catch((error) => {
           const permissionError = new FirestorePermissionError({
@@ -148,19 +125,6 @@ export default function MembershipForm() {
               <FormLabel>State / City</FormLabel>
               <FormControl>
                 <Input placeholder="e.g. New York, NY" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="captcha"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm">Security Question: What is {captcha.a} + {captcha.b}?</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="Your answer" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
