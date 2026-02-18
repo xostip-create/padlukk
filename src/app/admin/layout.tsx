@@ -4,7 +4,7 @@
 import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Loader2, Mail, CalendarDays, LogOut } from 'lucide-react';
+import { Loader2, Mail, CalendarDays, LogOut, Users } from 'lucide-react';
 import {
   SidebarProvider,
   Sidebar,
@@ -34,13 +34,14 @@ const AdminSidebar = () => {
 
   const navItems = [
     { href: '/admin/rsvps', label: 'RSVPs', icon: Mail },
+    { href: '/admin/memberships', label: 'Memberships', icon: Users },
     { href: '/admin/events', label: 'Events', icon: CalendarDays },
   ];
 
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-4">
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 width="24" 

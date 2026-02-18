@@ -55,6 +55,19 @@
         }
       },
       "required": ["title", "description", "date", "imageUrl", "createdAt"]
+    },
+    "membershipApplication": {
+      "title": "Membership Application",
+      "description": "A submission for community membership.",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "socialHandle": { "type": "string" },
+        "creativeField": { "type": "string" },
+        "location": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "socialHandle", "creativeField", "location", "createdAt"]
     }
   },
   "auth": {
@@ -78,6 +91,12 @@
         "$ref": "#/entities/event"
       },
       "description": "Collection of events."
+    },
+    "/membershipApplications/{id}": {
+      "schema": {
+        "$ref": "#/entities/membershipApplication"
+      },
+      "description": "Collection of membership applications."
     }
   }
 }

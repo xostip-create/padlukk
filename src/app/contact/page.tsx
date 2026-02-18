@@ -1,3 +1,4 @@
+
 import MembershipForm from "@/components/contact-form";
 
 export default function MembershipPage() {
@@ -14,6 +15,11 @@ export default function MembershipPage() {
         <section>
           <div className="max-w-xl mx-auto bg-card p-8 rounded-lg border">
             <MembershipForm />
+            <div className="mt-8 pt-8 border-t text-center">
+              <p className="text-muted-foreground text-sm">
+                Questions? Contact us at <a href="mailto:info@padluckk.com" className="text-primary hover:underline">info@padluckk.com</a>
+              </p>
+            </div>
           </div>
         </section>
       </div>

@@ -1,15 +1,19 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useTransition, useState, useEffect } from 'react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useFirestore } from '@/firebase';
+import { FirestorePermissionError } from '@/firebase/errors';
+import { errorEmitter } from '@/firebase/error-emitter';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { handleMembershipSubmission } from '@/app/contact/actions';
 import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
@@ -25,6 +29,7 @@ type FormValues = z.infer<typeof formSchema>;
 export default function MembershipForm() {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const firestore = useFirestore();
   const [captcha, setCaptcha] = useState({ a: 0, b: 0, answer: 0 });
 
   useEffect(() => {
@@ -45,30 +50,51 @@ export default function MembershipForm() {
   });
 
   async function onSubmit(values: FormValues) {
-    startTransition(async () => {
-      const isCaptchaCorrect = parseInt(values.captcha, 10) === captcha.answer;
-      
-      const result = await handleMembershipSubmission({
-        ...values,
-        captcha: String(isCaptchaCorrect)
-      });
+    if (!firestore) return;
 
-      if (result.success) {
-        toast({
-          title: 'Success!',
-          description: result.message,
+    const isCaptchaCorrect = parseInt(values.captcha, 10) === captcha.answer;
+    if (!isCaptchaCorrect) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Incorrect captcha answer.',
+      });
+      return;
+    }
+
+    startTransition(() => {
+      const applicationData = {
+        fullName: values.fullName,
+        socialHandle: values.socialHandle,
+        creativeField: values.creativeField,
+        location: values.location,
+        createdAt: serverTimestamp(),
+      };
+
+      addDoc(collection(firestore, 'membershipApplications'), applicationData)
+        .then(() => {
+          toast({
+            title: 'Success!',
+            description: 'Thank you for your application! The community will review it shortly.',
+          });
+          form.reset();
+          const a = Math.floor(Math.random() * 10) + 1;
+          const b = Math.floor(Math.random() * 10) + 1;
+          setCaptcha({ a, b, answer: a + b });
+        })
+        .catch((error) => {
+          const permissionError = new FirestorePermissionError({
+            path: 'membershipApplications',
+            operation: 'create',
+            requestResourceData: applicationData,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+          toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'An error occurred. Please try again.',
+          });
         });
-        form.reset();
-        const a = Math.floor(Math.random() * 10) + 1;
-        const b = Math.floor(Math.random() * 10) + 1;
-        setCaptcha({ a, b, answer: a + b });
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: result.errors?.captcha ? 'Incorrect captcha answer.' : 'An error occurred. Please try again.',
-        });
-      }
     });
   }
 
