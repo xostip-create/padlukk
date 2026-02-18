@@ -1,4 +1,3 @@
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,7 +25,11 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function RsvpForm() {
+interface RsvpFormProps {
+  onSuccess?: () => void;
+}
+
+export default function RsvpForm({ onSuccess }: RsvpFormProps) {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const firestore = useFirestore();
@@ -65,6 +68,7 @@ export default function RsvpForm() {
               description: 'Thank you for your RSVP! We will be in touch.',
             });
             form.reset();
+            if (onSuccess) onSuccess();
         })
         .catch((error) => {
             const permissionError = new FirestorePermissionError({

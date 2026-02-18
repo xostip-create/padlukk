@@ -1,8 +1,21 @@
+'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import RsvpForm from '@/components/rsvp-form';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 export default function EventsPage() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="bg-background text-foreground font-body">
       <div className="container mx-auto max-w-3xl py-16 md:py-24 px-4 space-y-16">
@@ -32,7 +45,22 @@ export default function EventsPage() {
                 <h3 className="font-headline text-2xl tracking-tight">Theme: Creating while uncertain</h3>
                 <p className="text-muted-foreground">Limited entry. RSVP required.</p>
                 <div className="pt-4 w-full max-w-sm mx-auto">
-                  <RsvpForm />
+                  <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                    <DialogTrigger asChild>
+                      <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-headline text-lg py-6">
+                        RSVP to join the table
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle className="font-headline text-2xl">Event RSVP</DialogTitle>
+                        <DialogDescription>
+                          Enter your details below to request a spot at our upcoming gathering.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <RsvpForm onSuccess={() => setIsOpen(false)} />
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </div>
