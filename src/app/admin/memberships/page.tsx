@@ -1,12 +1,11 @@
-
 'use client';
 import { useCollection } from '@/firebase/firestore/use-collection';
 import { format } from 'date-fns';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Download, FileDown, Loader2, Inbox, User } from 'lucide-react';
+import { Download, FileDown, Loader2, Inbox, ExternalLink } from 'lucide-react';
 import { unparse } from 'papaparse';
-import jsPDF from 'jspdf';
+import jsPDF from 'jsPDF';
 import 'jspdf-autotable';
 
 interface MembershipApplication {
@@ -50,7 +49,7 @@ export default function MembershipsAdminPage() {
     const doc = new jsPDF();
     doc.text('Membership Applications', 14, 16);
     (doc as any).autoTable({
-        head: [['Name', 'Social', 'Field', 'Location', 'Date']],
+        head: [['Name', 'Social Link', 'Field', 'Location', 'Date']],
         body: applications.map(a => [
             a.fullName,
             a.socialHandle,
@@ -105,7 +104,7 @@ export default function MembershipsAdminPage() {
                 <TableHeader>
                     <TableRow>
                         <TableHead>Full Name</TableHead>
-                        <TableHead>Social Handle</TableHead>
+                        <TableHead>Social Link</TableHead>
                         <TableHead>Creative Field</TableHead>
                         <TableHead>Location</TableHead>
                         <TableHead>Submitted</TableHead>
@@ -115,7 +114,16 @@ export default function MembershipsAdminPage() {
                     {applications.map((app) => (
                         <TableRow key={app.id}>
                             <TableCell className="font-medium">{app.fullName}</TableCell>
-                            <TableCell>{app.socialHandle}</TableCell>
+                            <TableCell>
+                                <a 
+                                    href={app.socialHandle} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="text-primary hover:underline flex items-center gap-1"
+                                >
+                                    View Profile <ExternalLink className="h-3 w-3" />
+                                </a>
+                            </TableCell>
                             <TableCell>{app.creativeField}</TableCell>
                             <TableCell>{app.location}</TableCell>
                             <TableCell className="text-muted-foreground">

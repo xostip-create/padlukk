@@ -17,7 +17,7 @@ import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
-  socialHandle: z.string().min(3, { message: 'Please provide an Instagram or TikTok handle.' }),
+  socialHandle: z.string().url({ message: 'Please provide a valid Instagram or TikTok profile link (e.g., https://instagram.com/username).' }),
   creativeField: z.string().min(2, { message: 'Please specify your creative field.' }),
   location: z.string().min(2, { message: 'Please specify your State/City.' }),
 });
@@ -96,9 +96,9 @@ export default function MembershipForm() {
           name="socialHandle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Instagram or TikTok Handle</FormLabel>
+              <FormLabel>Instagram or TikTok Link</FormLabel>
               <FormControl>
-                <Input placeholder="@username" {...field} />
+                <Input placeholder="https://instagram.com/username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
