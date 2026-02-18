@@ -1,4 +1,3 @@
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,22 +8,21 @@ import { useTransition, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { handleContactSubmission } from '@/app/contact/actions';
+import { handleMembershipSubmission } from '@/app/contact/actions';
 import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  email: z.string().email({ message: 'Please enter a valid email.' }),
-  subject: z.string().min(5, { message: 'Subject must be at least 5 characters.' }),
-  message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
+  fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
+  socialHandle: z.string().min(3, { message: 'Please provide an Instagram or TikTok handle.' }),
+  creativeField: z.string().min(2, { message: 'Please specify your creative field.' }),
+  location: z.string().min(2, { message: 'Please specify your State/City.' }),
   captcha: z.string().min(1, { message: 'Please solve the captcha.' }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function ContactForm() {
+export default function MembershipForm() {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const [captcha, setCaptcha] = useState({ a: 0, b: 0, answer: 0 });
@@ -38,10 +36,10 @@ export default function ContactForm() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
+      fullName: '',
+      socialHandle: '',
+      creativeField: '',
+      location: '',
       captcha: '',
     },
   });
@@ -50,7 +48,7 @@ export default function ContactForm() {
     startTransition(async () => {
       const isCaptchaCorrect = parseInt(values.captcha, 10) === captcha.answer;
       
-      const result = await handleContactSubmission({
+      const result = await handleMembershipSubmission({
         ...values,
         captcha: String(isCaptchaCorrect)
       });
@@ -79,7 +77,7 @@ export default function ContactForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="name"
+          name="fullName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Full Name</FormLabel>
@@ -92,12 +90,12 @@ export default function ContactForm() {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="socialHandle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel>Instagram or TikTok Handle</FormLabel>
               <FormControl>
-                <Input placeholder="you@example.com" {...field} />
+                <Input placeholder="@username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,12 +103,12 @@ export default function ContactForm() {
         />
         <FormField
           control={form.control}
-          name="subject"
+          name="creativeField"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject</FormLabel>
+              <FormLabel>Creative Field</FormLabel>
               <FormControl>
-                <Input placeholder="Content Submission Idea" {...field} />
+                <Input placeholder="e.g. Photography, Sound Design, Fashion" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -118,12 +116,12 @@ export default function ContactForm() {
         />
         <FormField
           control={form.control}
-          name="message"
+          name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Message</FormLabel>
+              <FormLabel>State / City</FormLabel>
               <FormControl>
-                <Textarea placeholder="Tell us about your idea..." className="min-h-[120px]" {...field} />
+                <Input placeholder="e.g. New York, NY" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -134,7 +132,7 @@ export default function ContactForm() {
           name="captcha"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Security Question: What is {captcha.a} + {captcha.b}?</FormLabel>
+              <FormLabel className="text-sm">Security Question: What is {captcha.a} + {captcha.b}?</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="Your answer" {...field} />
               </FormControl>
@@ -144,7 +142,7 @@ export default function ContactForm() {
         />
         <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={isPending}>
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isPending ? 'Sending...' : 'Send Message'}
+          {isPending ? 'Sending Application...' : 'Apply for Membership'}
         </Button>
       </form>
     </Form>

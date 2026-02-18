@@ -31,7 +31,7 @@ export default function Header() {
     { href: '/events', label: 'Events' },
     { href: '/creators', label: 'Creators' },
     ...(user ? [{ href: '/admin', label: 'Admin' }] : []),
-    { href: '/contact', label: 'Contact' },
+    { href: '/contact', label: 'Membership' },
   ];
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (

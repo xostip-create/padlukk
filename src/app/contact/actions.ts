@@ -1,24 +1,23 @@
-
 'use server';
 
 import { z } from 'zod';
 
-const contactSchema = z.object({
-  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  email: z.string().email({ message: 'Please enter a valid email.' }),
-  subject: z.string().min(5, { message: 'Subject must be at least 5 characters.' }),
-  message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
+const membershipSchema = z.object({
+  fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
+  socialHandle: z.string().min(3, { message: 'Please provide an Instagram or TikTok handle.' }),
+  creativeField: z.string().min(2, { message: 'Please specify your creative field.' }),
+  location: z.string().min(2, { message: 'Please specify your State/City.' }),
   captcha: z.string().refine((val) => val === 'true', { message: 'Incorrect captcha answer.' }),
 });
 
-export async function handleContactSubmission(formData: {
-    name: string;
-    email: string;
-    subject: string;
-    message: string;
+export async function handleMembershipSubmission(formData: {
+    fullName: string;
+    socialHandle: string;
+    creativeField: string;
+    location: string;
     captcha: string;
 }) {
-  const validatedFields = contactSchema.safeParse(formData);
+  const validatedFields = membershipSchema.safeParse(formData);
 
   if (!validatedFields.success) {
     return {
@@ -28,20 +27,14 @@ export async function handleContactSubmission(formData: {
     };
   }
 
-  // Simulate sending an email
-  console.log('New Contact Form Submission:');
+  // Simulate storing membership application
+  console.log('New Membership Application:');
   console.log(validatedFields.data);
 
-  // In a real app, you would use a service like Resend, SendGrid, or Nodemailer here.
-  // await sendEmail({
-  //   to: 'content-team@padluckk.com',
-  //   from: 'contact-form@padluckk.com',
-  //   subject: validatedFields.data.subject,
-  //   html: `<p>Name: ${validatedFields.data.name}</p><p>Email: ${validatedFields.data.email}</p><p>Message: ${validatedFields.data.message}</p>`,
-  // });
+  // In a real app, you would save this to Firestore or use an email service.
 
   return {
     success: true,
-    message: 'Thank you for your message! We will get back to you shortly.',
+    message: 'Thank you for your application! The community will review it shortly.',
   };
 }
