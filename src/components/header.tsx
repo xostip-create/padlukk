@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, LogOut } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
 
@@ -22,13 +22,6 @@ export default function Header() {
   if (pathname.startsWith('/admin')) {
     return null;
   }
-
-  const handleSignOut = async () => {
-    if (auth) {
-      await auth.signOut();
-      router.push('/');
-    }
-  };
 
   const navLinks = [
     { href: '/world', label: 'World' },
@@ -68,16 +61,6 @@ export default function Header() {
           {navLinks.map((link) => (
             <NavLink key={link.href} href={link.href} label={link.label} />
           ))}
-          {!loading &&
-            (user ? (
-              <Button variant="ghost" size="icon" onClick={handleSignOut} aria-label="Sign out">
-                <LogOut className="h-5 w-5" />
-              </Button>
-            ) : (
-              <Button asChild variant="ghost" className="text-sm uppercase tracking-wider">
-                <Link href="/login">Login</Link>
-              </Button>
-            ))}
         </nav>
         <div className="md:hidden">
           <Sheet open={isMobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -113,18 +96,6 @@ export default function Header() {
                     {link.label}
                   </Link>
                 ))}
-                <div className="mt-4 border-t pt-6">
-                  {!loading &&
-                    (user ? (
-                      <Button variant="outline" className="w-full" onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}>
-                        Sign Out
-                      </Button>
-                    ) : (
-                      <Button asChild className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                        <Link href="/login">Login</Link>
-                      </Button>
-                    ))}
-                </div>
               </div>
             </SheetContent>
           </Sheet>
