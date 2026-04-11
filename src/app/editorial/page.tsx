@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useCollection } from '@/firebase/firestore/use-collection';
@@ -12,6 +11,7 @@ interface EditorialPost {
   id: string;
   title: string;
   slug: string;
+  content: string;
   author: string;
   category: string;
   imageUrl: string;
@@ -20,6 +20,10 @@ interface EditorialPost {
 
 export default function EditorialPage() {
   const { data: posts, loading, error } = useCollection<EditorialPost>('editorialPosts', { orderBy: ['publishedAt', 'desc'] });
+
+  const getSnippet = (html: string) => {
+    return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  };
 
   return (
     <div className="bg-background min-h-screen font-body">
@@ -83,11 +87,16 @@ export default function EditorialPage() {
                       <span>{post.publishedAt ? format(new Date(post.publishedAt.seconds * 1000), 'MMMM d, yyyy') : ''}</span>
                    </div>
                    
-                   <h2 className="font-headline text-3xl md:text-4xl leading-tight transition-colors group-hover:text-primary">
-                    {post.title}
-                   </h2>
+                   <div className="space-y-3">
+                     <h2 className="font-headline text-3xl md:text-4xl leading-tight transition-colors group-hover:text-primary">
+                      {post.title}
+                     </h2>
+                     <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+                       {getSnippet(post.content)}
+                     </p>
+                   </div>
                    
-                   <div className="pt-4">
+                   <div className="pt-2">
                       <span className="inline-flex items-center gap-2 text-sm font-headline tracking-widest uppercase opacity-0 -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                         Read Story <ArrowRight className="h-4 w-4" />
                       </span>
