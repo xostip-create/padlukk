@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Loader2, Mail, CalendarDays, LogOut, Users, Settings, User, Bell } from 'lucide-react';
+import { Loader2, Mail, CalendarDays, LogOut, Users, Settings, User, Bell, PenTool } from 'lucide-react';
 import {
   SidebarProvider,
   Sidebar,
@@ -38,6 +39,7 @@ const AdminSidebar = () => {
     { href: '/admin/rsvps', label: 'RSVPs', icon: Mail },
     { href: '/admin/memberships', label: 'Memberships', icon: Users },
     { href: '/admin/events', label: 'Events', icon: CalendarDays },
+    { href: '/admin/editorial', label: 'Editorial', icon: PenTool },
   ];
 
   return (
@@ -104,6 +106,7 @@ const AdminHeader = () => {
     if (pathname.includes('/admin/rsvps')) return 'RSVP Submissions';
     if (pathname.includes('/admin/memberships')) return 'Membership Applications';
     if (pathname.includes('/admin/events')) return 'Events Management';
+    if (pathname.includes('/admin/editorial')) return 'Editorial Posts';
     return 'Dashboard';
   };
 

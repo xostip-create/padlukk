@@ -84,6 +84,23 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["fullName", "socialHandle", "creativeField", "location", "createdAt"]
+    },
+    "editorialPost": {
+      "title": "Editorial Post",
+      "description": "A blog post or article in the editorial section.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "content": { "type": "string" },
+        "author": { "type": "string" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "publishedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "slug", "excerpt", "content", "author", "category", "imageUrl", "publishedAt", "createdAt"]
     }
   },
   "auth": {
@@ -113,6 +130,12 @@
         "$ref": "#/entities/membershipApplication"
       },
       "description": "Collection of membership applications."
+    },
+    "/editorialPosts/{postId}": {
+      "schema": {
+        "$ref": "#/entities/editorialPost"
+      },
+      "description": "Collection of editorial blog posts."
     }
   }
 }

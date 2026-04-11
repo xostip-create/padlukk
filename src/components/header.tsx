@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -27,7 +28,7 @@ export default function Header() {
     { href: '/world', label: 'World' },
     { href: '/studios', label: 'Studios' },
     { href: '/events', label: 'Events' },
-    { href: '/creators', label: 'Creators' },
+    { href: '/editorial', label: 'Editorial' },
     { href: '/contact', label: 'Membership' },
   ];
 
