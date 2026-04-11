@@ -3,13 +3,14 @@
 
 import { useCollection } from '@/firebase/firestore/use-collection';
 import { useParams } from 'next/navigation';
-import { Loader2, ArrowLeft, Calendar, User, Share2, Bookmark, Clock } from 'lucide-react';
+import { Loader2, ArrowLeft, Calendar, User, Share2, Bookmark, Clock, Check } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface EditorialPost {
   id: string;
@@ -25,9 +26,62 @@ interface EditorialPost {
 export default function EditorialPostPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const { toast } = useToast();
   const { data: posts, loading, error } = useCollection<EditorialPost>('editorialPosts', { where: ['slug', '==', slug], limit: 1 });
 
   const post = useMemo(() => posts?.[0] || null, [posts]);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  useEffect(() => {
+    if (post) {
+      const bookmarks = JSON.parse(localStorage.getItem('padluckk_bookmarks') || '[]');
+      setIsBookmarked(bookmarks.includes(post.id));
+    }
+  }, [post]);
+
+  const handleBookmark = () => {
+    if (!post) return;
+    const bookmarks = JSON.parse(localStorage.getItem('padluckk_bookmarks') || '[]');
+    let newBookmarks;
+    if (isBookmarked) {
+      newBookmarks = bookmarks.filter((id: string) => id !== post.id);
+      toast({
+        title: 'Removed from Library',
+        description: 'The story has been removed from your bookmarks.',
+      });
+    } else {
+      newBookmarks = [...bookmarks, post.id];
+      toast({
+        title: 'Saved to Library',
+        description: 'You can find this story in your bookmarks later.',
+      });
+    }
+    localStorage.setItem('padluckk_bookmarks', JSON.stringify(newBookmarks));
+    setIsBookmarked(!isBookmarked);
+  };
+
+  const handleShare = async () => {
+    if (!post) return;
+    const shareData = {
+      title: post.title,
+      text: `Check out this story on Padluckk: ${post.title}`,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: 'Link Copied',
+          description: 'The story URL has been copied to your clipboard.',
+        });
+      }
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  };
 
   // Estimate reading time based on content length
   const readingTime = useMemo(() => {
@@ -163,11 +217,24 @@ export default function EditorialPostPage() {
 
                 <div className="pt-6 border-t border-border/20 flex items-center justify-between">
                   <div className="flex gap-4">
-                    <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/10">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="rounded-full hover:bg-primary/10"
+                      onClick={handleShare}
+                    >
                       <Share2 className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/10">
-                      <Bookmark className="h-4 w-4" />
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className={cn(
+                        "rounded-full transition-colors",
+                        isBookmarked ? "bg-primary/20 text-primary" : "hover:bg-primary/10"
+                      )}
+                      onClick={handleBookmark}
+                    >
+                      {isBookmarked ? <Check className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
                     </Button>
                   </div>
                   <div className="text-[10px] tracking-widest uppercase opacity-40">Share Story</div>
