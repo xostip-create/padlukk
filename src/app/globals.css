@@ -51,38 +51,3 @@
     background-attachment: fixed;
   }
 }
-
-@keyframes sprinkle {
-  0% { 
-    transform: translate(-50%, -50%) scale(0); 
-    opacity: 0; 
-  }
-  20% { 
-    opacity: 0.8; 
-    filter: drop-shadow(0 0 10px hsl(var(--primary)));
-  }
-  100% { 
-    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.1); 
-    opacity: 0; 
-  }
-}
-
-.animate-sprinkle {
-  animation: sprinkle linear infinite;
-}
-
-@keyframes cursor-particle {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.9;
-    filter: drop-shadow(0 0 5px currentColor);
-  }
-  100% {
-    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0);
-    opacity: 0;
-  }
-}
-
-.animate-cursor-particle {
-  animation: cursor-particle 2s ease-out forwards;
-}

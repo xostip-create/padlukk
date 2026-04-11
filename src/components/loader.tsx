@@ -1,7 +1,6 @@
 'use client';
 
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
 
 const PadlockIcon = ({ size = 24, className }: { size?: number, className?: string }) => (
   <svg 
@@ -22,21 +21,6 @@ const PadlockIcon = ({ size = 24, className }: { size?: number, className?: stri
 );
 
 export default function Loader({ loading }: { loading: boolean }) {
-  const [particles, setParticles] = useState<{ id: number; tx: number; ty: number; delay: number; size: number }[]>([]);
-
-  useEffect(() => {
-    if (loading) {
-      const newParticles = Array.from({ length: 12 }).map((_, i) => ({
-        id: i,
-        tx: (Math.random() - 0.5) * 300,
-        ty: (Math.random() - 0.5) * 300,
-        delay: Math.random() * 3,
-        size: 8 + Math.random() * 12,
-      }));
-      setParticles(newParticles);
-    }
-  }, [loading]);
-
   return (
     <div
       className={cn(
@@ -49,22 +33,6 @@ export default function Loader({ loading }: { loading: boolean }) {
         <div className="animate-pulse relative z-10 text-primary">
           <PadlockIcon size={56} />
         </div>
-
-        {/* Sprinkle Particles */}
-        {loading && particles.map((p) => (
-          <div
-            key={p.id}
-            className="absolute top-1/2 left-1/2 text-primary/30 pointer-events-none animate-sprinkle"
-            style={{
-              '--tx': `${p.tx}px`,
-              '--ty': `${p.ty}px`,
-              animationDelay: `${p.delay}s`,
-              animationDuration: '3.5s',
-            } as React.CSSProperties}
-          >
-            <PadlockIcon size={p.size} />
-          </div>
-        ))}
         
         {/* Ambient Glow */}
         <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full scale-150 animate-pulse pointer-events-none" />

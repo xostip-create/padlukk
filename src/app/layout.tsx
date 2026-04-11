@@ -7,7 +7,6 @@ import Footer from '@/components/footer';
 import AppProvider from '@/components/app-provider';
 import CookieConsent from '@/components/cookie-consent';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
-import CursorSprinkle from '@/components/cursor-sprinkle';
 
 export const metadata: Metadata = {
   title: 'Padluckk',
@@ -34,7 +33,6 @@ export default function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
-            <CursorSprinkle />
             <Toaster />
             <CookieConsent />
           </AppProvider>
