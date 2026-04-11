@@ -70,3 +70,18 @@
 .animate-sprinkle {
   animation: sprinkle linear infinite;
 }
+
+@keyframes cursor-particle {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0);
+    opacity: 0;
+  }
+}
+
+.animate-cursor-particle {
+  animation: cursor-particle 1s ease-out forwards;
+}
