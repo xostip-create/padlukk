@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useCollection } from '@/firebase/firestore/use-collection';
@@ -255,7 +254,7 @@ export default function EditorialPostPage() {
 
               {/* Quick Links */}
               <div className="space-y-6">
-                 <h4 className="text-[10px] tracking-[0.3em] uppercase opacity-40">Next Chapter</h4>
+                 <h4 className="text-[10px] tracking-[0.3em] uppercase opacity-40">Check out</h4>
                  <Link href="/world" className="group block space-y-2">
                     <p className="font-headline text-lg group-hover:text-primary transition-colors">The World of Padluckk</p>
                     <p className="text-xs text-muted-foreground leading-relaxed">Explore the scenes and communities defining our nights.</p>
