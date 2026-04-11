@@ -43,7 +43,7 @@ const AdminSidebar = () => {
   ];
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center gap-2 mb-4 p-2">
             <svg 
@@ -112,7 +112,7 @@ const AdminHeader = () => {
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <SidebarTrigger className="md:hidden" />
+      <SidebarTrigger className="-ml-1 mr-2" />
       <div className="flex flex-1 items-center gap-4">
         <h2 className="text-lg font-semibold font-headline tracking-tight">{getPageTitle()}</h2>
       </div>

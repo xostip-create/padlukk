@@ -92,7 +92,6 @@
       "properties": {
         "title": { "type": "string" },
         "slug": { "type": "string" },
-        "excerpt": { "type": "string" },
         "content": { "type": "string" },
         "author": { "type": "string" },
         "category": { "type": "string" },
@@ -100,7 +99,7 @@
         "publishedAt": { "type": "string", "format": "date-time" },
         "createdAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["title", "slug", "excerpt", "content", "author", "category", "imageUrl", "publishedAt", "createdAt"]
+      "required": ["title", "slug", "content", "author", "category", "imageUrl", "publishedAt", "createdAt"]
     }
   },
   "auth": {

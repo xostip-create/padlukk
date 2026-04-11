@@ -6,12 +6,12 @@ import { Loader2, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 interface EditorialPost {
   id: string;
   title: string;
   slug: string;
-  excerpt: string;
   author: string;
   category: string;
   imageUrl: string;
@@ -87,10 +87,6 @@ export default function EditorialPage() {
                     {post.title}
                    </h2>
                    
-                   <p className="text-muted-foreground leading-relaxed line-clamp-3">
-                    {post.excerpt}
-                   </p>
-                   
                    <div className="pt-4">
                       <span className="inline-flex items-center gap-2 text-sm font-headline tracking-widest uppercase opacity-0 -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                         Read Story <ArrowRight className="h-4 w-4" />
@@ -111,5 +107,3 @@ export default function EditorialPage() {
     </div>
   );
 }
-
-import { cn } from '@/lib/utils';

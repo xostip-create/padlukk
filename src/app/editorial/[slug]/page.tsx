@@ -14,7 +14,6 @@ interface EditorialPost {
   id: string;
   title: string;
   slug: string;
-  excerpt: string;
   content: string;
   author: string;
   category: string;
@@ -94,10 +93,6 @@ export default function EditorialPostPage() {
         </div>
 
         <div className="space-y-8">
-            <p className="text-xl md:text-2xl font-headline italic text-foreground/90 leading-relaxed border-l-4 border-primary pl-6">
-                {post.excerpt}
-            </p>
-
             <div 
               className="prose prose-invert max-w-none text-muted-foreground leading-loose text-lg rich-text-content"
               dangerouslySetInnerHTML={{ __html: post.content }}

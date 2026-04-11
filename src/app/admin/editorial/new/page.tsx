@@ -9,7 +9,6 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Loader2, Save } from 'lucide-react';
 import Link from 'next/link';
@@ -25,7 +24,6 @@ export default function NewEditorialPage() {
 
   const [formData, setFormData] = useState({
     title: '',
-    excerpt: '',
     author: '',
     category: '',
     imageUrl: '',
@@ -143,15 +141,6 @@ export default function NewEditorialPage() {
                   placeholder="https://..." 
                   value={formData.imageUrl}
                   onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Excerpt</Label>
-                <Textarea 
-                  placeholder="Briefly set the scene..." 
-                  className="h-24"
-                  value={formData.excerpt}
-                  onChange={(e) => setFormData(prev => ({ ...prev, excerpt: e.target.value }))}
                 />
               </div>
             </CardContent>

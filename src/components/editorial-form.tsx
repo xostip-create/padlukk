@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,7 +19,6 @@ import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   title: z.string().min(5, { message: 'Title must be at least 5 characters.' }),
-  excerpt: z.string().min(10, { message: 'Excerpt must be at least 10 characters.' }),
   content: z.string().min(20, { message: 'Content must be at least 20 characters.' }),
   category: z.string().min(2, { message: 'Category is required.' }),
   author: z.string().min(2, { message: 'Author is required.' }),
@@ -45,7 +45,6 @@ export default function EditorialForm({ initialData, onFinished }: EditorialForm
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: initialData?.title || '',
-      excerpt: initialData?.excerpt || '',
       content: initialData?.content || '',
       category: initialData?.category || '',
       author: initialData?.author || '',
@@ -58,7 +57,6 @@ export default function EditorialForm({ initialData, onFinished }: EditorialForm
     if (initialData) {
       form.reset({
         title: initialData.title,
-        excerpt: initialData.excerpt,
         content: initialData.content,
         category: initialData.category,
         author: initialData.author,
@@ -183,19 +181,6 @@ export default function EditorialForm({ initialData, onFinished }: EditorialForm
             )}
             />
         </div>
-        <FormField
-          control={form.control}
-          name="excerpt"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Excerpt (Short Summary)</FormLabel>
-              <FormControl>
-                <Textarea placeholder="A brief look at the story..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="content"

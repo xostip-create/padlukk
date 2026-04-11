@@ -4,7 +4,7 @@
 import { useCollection } from '@/firebase/firestore/use-collection';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Loader2, PlusCircle, Inbox, User, Edit, Trash2 } from 'lucide-react';
 import Image from 'next/image';
@@ -18,7 +18,6 @@ import { FirestorePermissionError } from '@/firebase/errors';
 interface EditorialPost {
   id: string;
   title: string;
-  excerpt: string;
   author: string;
   category: string;
   imageUrl: string;
@@ -137,7 +136,6 @@ export default function EditorialAdminPage() {
                       </div>
                       <CardHeader>
                           <CardTitle className="font-headline text-2xl">{post.title}</CardTitle>
-                          <CardDescription className="line-clamp-2 text-sm italic">{post.excerpt}</CardDescription>
                       </CardHeader>
                       <CardContent className="mt-auto border-t pt-4">
                           <div className="flex justify-between items-center text-xs text-muted-foreground">
