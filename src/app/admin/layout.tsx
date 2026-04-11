@@ -61,7 +61,7 @@ const AdminSidebar = () => {
                 <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
-            <span className="font-headline text-lg group-data-[collapsible=icon]:hidden">
+            <span className="font-headline text-lg group-data-[collapsible=icon]:hidden whitespace-nowrap overflow-hidden">
                 Padluckk Admin
             </span>
         </div>
@@ -76,8 +76,10 @@ const AdminSidebar = () => {
                 tooltip={item.label}
               >
                 <Link href={item.href}>
-                  <item.icon />
-                  <span>{item.label}</span>
+                  <item.icon className="shrink-0" />
+                  <span className="group-data-[collapsible=icon]:hidden whitespace-nowrap overflow-hidden">
+                    {item.label}
+                  </span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -88,8 +90,10 @@ const AdminSidebar = () => {
         <SidebarMenu>
             <SidebarMenuItem>
                 <SidebarMenuButton onClick={handleSignOut} tooltip="Sign Out">
-                    <LogOut />
-                    <span>Sign Out</span>
+                    <LogOut className="shrink-0" />
+                    <span className="group-data-[collapsible=icon]:hidden whitespace-nowrap overflow-hidden">
+                        Sign Out
+                    </span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
         </SidebarMenu>
