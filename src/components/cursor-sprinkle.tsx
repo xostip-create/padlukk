@@ -10,7 +10,7 @@ const PadlockIcon = ({ size = 12, className }: { size?: number, className?: stri
     viewBox="0 0 24 24" 
     fill="none" 
     stroke="currentColor" 
-    strokeWidth="1.5" 
+    strokeWidth="2" 
     strokeLinecap="round" 
     strokeLinejoin="round"
     className={className}
@@ -35,24 +35,28 @@ export default function CursorSprinkle() {
 
   const addParticle = useCallback((x: number, y: number) => {
     const id = Math.random();
-    const tx = (Math.random() - 0.5) * 80;
-    const ty = (Math.random() - 0.5) * 80;
-    const size = 6 + Math.random() * 10;
+    // Wider spread for the drifting effect
+    const tx = (Math.random() - 0.5) * 120;
+    const ty = (Math.random() - 0.5) * 120;
+    // Larger size range
+    const size = 10 + Math.random() * 18;
     const color = Math.random() > 0.5 ? 'text-primary' : 'text-accent';
     
     const newParticle = { id, x, y, tx, ty, size, color };
     
-    setParticles((prev) => [...prev.slice(-15), newParticle]);
+    // Increased limit to accommodate longer lifespan
+    setParticles((prev) => [...prev.slice(-40), newParticle]);
     
+    // Matched timeout to the 2s animation duration
     setTimeout(() => {
       setParticles((prev) => prev.filter((p) => p.id !== id));
-    }, 1000);
+    }, 2000);
   }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Only add a particle 15% of the time to create a "sprinkle" rather than a solid trail
-      if (Math.random() > 0.85) {
+      // Increased frequency from 15% to 35% for a bolder trail
+      if (Math.random() > 0.65) {
         addParticle(e.clientX, e.clientY);
       }
     };
@@ -66,7 +70,7 @@ export default function CursorSprinkle() {
       {particles.map((p) => (
         <div
           key={p.id}
-          className={`absolute pointer-events-none animate-cursor-particle ${p.color} opacity-40`}
+          className={`absolute pointer-events-none animate-cursor-particle ${p.color} opacity-70`}
           style={{
             left: p.x,
             top: p.y,
