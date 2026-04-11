@@ -1,15 +1,14 @@
+
 'use client';
 
-import { useState } from 'react';
 import { useCollection } from '@/firebase/firestore/use-collection';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Loader2, PlusCircle, Inbox, User, Edit, Trash2 } from 'lucide-react';
 import Image from 'next/image';
-import EditorialForm from '@/components/editorial-form';
+import Link from 'next/link';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
@@ -20,7 +19,6 @@ interface EditorialPost {
   id: string;
   title: string;
   excerpt: string;
-  content: string;
   author: string;
   category: string;
   imageUrl: string;
@@ -31,19 +29,6 @@ export default function EditorialAdminPage() {
   const firestore = useFirestore();
   const { toast } = useToast();
   const { data: posts, loading, error } = useCollection<EditorialPost>('editorialPosts', { orderBy: ['publishedAt', 'desc'] });
-  
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingPost, setEditingPost] = useState<EditorialPost | null>(null);
-
-  const handleEdit = (post: EditorialPost) => {
-    setEditingPost(post);
-    setIsDialogOpen(true);
-  };
-
-  const handleAddNew = () => {
-    setEditingPost(null);
-    setIsDialogOpen(true);
-  };
 
   const handleDelete = async (postId: string) => {
     if (!firestore) return;
@@ -61,11 +46,6 @@ export default function EditorialAdminPage() {
           operation: 'delete',
         });
         errorEmitter.emit('permission-error', permissionError);
-        toast({
-          variant: 'destructive',
-          title: 'Delete Failed',
-          description: 'Could not delete the post. Please try again.',
-        });
       });
   };
 
@@ -73,29 +53,12 @@ export default function EditorialAdminPage() {
     <div className="max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="font-headline text-4xl">Editorial Management</h1>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-                <Button onClick={handleAddNew}>
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    New Post
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                    <DialogTitle>{editingPost ? 'Edit Editorial Post' : 'Create Editorial Post'}</DialogTitle>
-                    <DialogDescription>
-                        {editingPost ? 'Update your story, interview, or visual essay.' : 'Publish a new story, interview, or visual essay to the editorial section.'}
-                    </DialogDescription>
-                </DialogHeader>
-                <EditorialForm 
-                    initialData={editingPost} 
-                    onFinished={() => {
-                        setIsDialogOpen(false);
-                        setEditingPost(null);
-                    }} 
-                />
-            </DialogContent>
-        </Dialog>
+        <Button asChild>
+          <Link href="/admin/editorial/new">
+            <PlusCircle className="mr-2 h-4 w-4" />
+            New Narrative
+          </Link>
+        </Button>
       </div>
 
       {loading && (
@@ -111,9 +74,9 @@ export default function EditorialAdminPage() {
             <div className="flex justify-center mb-4">
                 <Inbox className="h-12 w-12 text-muted-foreground" />
             </div>
-            <h2 className="text-xl font-semibold text-foreground">No Posts Published</h2>
+            <h2 className="text-xl font-semibold text-foreground">No Stories Published</h2>
             <p className="text-muted-foreground mt-2 max-w-md mx-auto">
-                Start building the Padluckk world by publishing your first editorial post.
+                Start building the Padluckk world by publishing your first editorial story.
             </p>
         </div>
       )}
@@ -139,9 +102,11 @@ export default function EditorialAdminPage() {
                                 variant="secondary" 
                                 size="icon" 
                                 className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
-                                onClick={() => handleEdit(post)}
+                                asChild
                               >
+                                <Link href={`/admin/editorial/${post.id}`}>
                                   <Edit className="h-4 w-4" />
+                                </Link>
                               </Button>
                               <AlertDialog>
                                   <AlertDialogTrigger asChild>
@@ -155,9 +120,9 @@ export default function EditorialAdminPage() {
                                   </AlertDialogTrigger>
                                   <AlertDialogContent>
                                       <AlertDialogHeader>
-                                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                          <AlertDialogTitle>Archive this narrative?</AlertDialogTitle>
                                           <AlertDialogDescription>
-                                              This action cannot be undone. This will permanently delete the editorial post "{post.title}".
+                                              This will permanently remove "{post.title}" from the digital library.
                                           </AlertDialogDescription>
                                       </AlertDialogHeader>
                                       <AlertDialogFooter>
@@ -172,7 +137,7 @@ export default function EditorialAdminPage() {
                       </div>
                       <CardHeader>
                           <CardTitle className="font-headline text-2xl">{post.title}</CardTitle>
-                          <CardDescription className="line-clamp-2 text-sm">{post.excerpt}</CardDescription>
+                          <CardDescription className="line-clamp-2 text-sm italic">{post.excerpt}</CardDescription>
                       </CardHeader>
                       <CardContent className="mt-auto border-t pt-4">
                           <div className="flex justify-between items-center text-xs text-muted-foreground">

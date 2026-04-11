@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { useMemo } from 'react';
+import { Button } from '@/components/ui/button';
 
 interface EditorialPost {
   id: string;
@@ -97,11 +98,10 @@ export default function EditorialPostPage() {
                 {post.excerpt}
             </p>
 
-            <div className="prose prose-invert max-w-none text-muted-foreground leading-loose text-lg space-y-6">
-                {post.content.split('\n').map((paragraph, i) => (
-                    paragraph.trim() ? <p key={i}>{paragraph}</p> : <br key={i} />
-                ))}
-            </div>
+            <div 
+              className="prose prose-invert max-w-none text-muted-foreground leading-loose text-lg rich-text-content"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
         </div>
 
         <footer className="pt-16 mt-16 border-t border-border/20 text-center">
@@ -119,5 +119,3 @@ export default function EditorialPostPage() {
     </article>
   );
 }
-
-import { Button } from '@/components/ui/button';
