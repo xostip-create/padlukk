@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -7,14 +6,21 @@ import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Loader2, PlusCircle, Inbox, User, Tag } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Loader2, PlusCircle, Inbox, User, Edit, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import EditorialForm from '@/components/editorial-form';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { useFirestore } from '@/firebase';
+import { useToast } from '@/hooks/use-toast';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 interface EditorialPost {
   id: string;
   title: string;
   excerpt: string;
+  content: string;
   author: string;
   category: string;
   imageUrl: string;
@@ -22,28 +28,72 @@ interface EditorialPost {
 }
 
 export default function EditorialAdminPage() {
+  const firestore = useFirestore();
+  const { toast } = useToast();
   const { data: posts, loading, error } = useCollection<EditorialPost>('editorialPosts', { orderBy: ['publishedAt', 'desc'] });
-  const [dialogOpen, setDialogOpen] = useState(false);
+  
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingPost, setEditingPost] = useState<EditorialPost | null>(null);
+
+  const handleEdit = (post: EditorialPost) => {
+    setEditingPost(post);
+    setIsDialogOpen(true);
+  };
+
+  const handleAddNew = () => {
+    setEditingPost(null);
+    setIsDialogOpen(true);
+  };
+
+  const handleDelete = async (postId: string) => {
+    if (!firestore) return;
+
+    deleteDoc(doc(firestore, 'editorialPosts', postId))
+      .then(() => {
+        toast({
+          title: 'Post Deleted',
+          description: 'The editorial post has been removed.',
+        });
+      })
+      .catch((err) => {
+        const permissionError = new FirestorePermissionError({
+          path: `editorialPosts/${postId}`,
+          operation: 'delete',
+        });
+        errorEmitter.emit('permission-error', permissionError);
+        toast({
+          variant: 'destructive',
+          title: 'Delete Failed',
+          description: 'Could not delete the post. Please try again.',
+        });
+      });
+  };
 
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="font-headline text-4xl">Editorial Management</h1>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-                <Button>
+                <Button onClick={handleAddNew}>
                     <PlusCircle className="mr-2 h-4 w-4" />
                     New Post
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Create Editorial Post</DialogTitle>
+                    <DialogTitle>{editingPost ? 'Edit Editorial Post' : 'Create Editorial Post'}</DialogTitle>
                     <DialogDescription>
-                        Publish a new story, interview, or visual essay to the editorial section.
+                        {editingPost ? 'Update your story, interview, or visual essay.' : 'Publish a new story, interview, or visual essay to the editorial section.'}
                     </DialogDescription>
                 </DialogHeader>
-                <EditorialForm onFinished={() => setDialogOpen(false)} />
+                <EditorialForm 
+                    initialData={editingPost} 
+                    onFinished={() => {
+                        setIsDialogOpen(false);
+                        setEditingPost(null);
+                    }} 
+                />
             </DialogContent>
         </Dialog>
       </div>
@@ -83,6 +133,41 @@ export default function EditorialAdminPage() {
                              <span className="bg-accent text-accent-foreground px-3 py-1 rounded-full text-xs font-headline tracking-widest uppercase">
                                 {post.category}
                              </span>
+                          </div>
+                          <div className="absolute top-4 right-4 flex gap-2">
+                              <Button 
+                                variant="secondary" 
+                                size="icon" 
+                                className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
+                                onClick={() => handleEdit(post)}
+                              >
+                                  <Edit className="h-4 w-4" />
+                              </Button>
+                              <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                      <Button 
+                                        variant="destructive" 
+                                        size="icon" 
+                                        className="h-8 w-8 rounded-full bg-destructive/80 backdrop-blur-sm hover:bg-destructive"
+                                      >
+                                          <Trash2 className="h-4 w-4" />
+                                      </Button>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                      <AlertDialogHeader>
+                                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                          <AlertDialogDescription>
+                                              This action cannot be undone. This will permanently delete the editorial post "{post.title}".
+                                          </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                          <AlertDialogAction onClick={() => handleDelete(post.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                                              Delete
+                                          </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                  </AlertDialogContent>
+                              </AlertDialog>
                           </div>
                       </div>
                       <CardHeader>

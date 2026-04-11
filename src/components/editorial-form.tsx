@@ -1,11 +1,10 @@
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useTransition } from 'react';
-import { addDoc, collection, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { useTransition, useEffect } from 'react';
+import { addDoc, collection, serverTimestamp, doc, updateDoc } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
 import { FirestorePermissionError } from '@/firebase/errors';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -28,11 +27,16 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+interface EditorialPost extends FormValues {
+    id: string;
+}
+
 type EditorialFormProps = {
+  initialData?: EditorialPost | null;
   onFinished: () => void;
 };
 
-export default function EditorialForm({ onFinished }: EditorialFormProps) {
+export default function EditorialForm({ initialData, onFinished }: EditorialFormProps) {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const firestore = useFirestore();
@@ -40,14 +44,28 @@ export default function EditorialForm({ onFinished }: EditorialFormProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      excerpt: '',
-      content: '',
-      category: '',
-      author: '',
-      imageUrl: '',
+      title: initialData?.title || '',
+      excerpt: initialData?.excerpt || '',
+      content: initialData?.content || '',
+      category: initialData?.category || '',
+      author: initialData?.author || '',
+      imageUrl: initialData?.imageUrl || '',
     },
   });
+
+  // Update form if initialData changes
+  useEffect(() => {
+    if (initialData) {
+      form.reset({
+        title: initialData.title,
+        excerpt: initialData.excerpt,
+        content: initialData.content,
+        category: initialData.category,
+        author: initialData.author,
+        imageUrl: initialData.imageUrl,
+      });
+    }
+  }, [initialData, form]);
 
   async function onSubmit(values: FormValues) {
     if (!firestore) return;
@@ -60,33 +78,64 @@ export default function EditorialForm({ onFinished }: EditorialFormProps) {
     const postData = {
         ...values,
         slug,
-        publishedAt: serverTimestamp(),
-        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
     };
 
     startTransition(() => {
-      addDoc(collection(firestore, 'editorialPosts'), postData)
-        .then(() => {
-            toast({
-              title: 'Post Published!',
-              description: 'Your editorial post is now live.',
-            });
-            form.reset();
-            onFinished();
-        })
-        .catch((error) => {
-            const permissionError = new FirestorePermissionError({
-                path: 'editorialPosts',
-                operation: 'create',
-                requestResourceData: postData,
-            });
-            errorEmitter.emit('permission-error', permissionError);
-            toast({
-              variant: 'destructive',
-              title: 'Error',
-              description: 'An error occurred while publishing.',
-            });
-        });
+      if (initialData?.id) {
+        // Update existing post
+        const docRef = doc(firestore, 'editorialPosts', initialData.id);
+        updateDoc(docRef, postData)
+          .then(() => {
+              toast({
+                title: 'Post Updated!',
+                description: 'Changes have been saved successfully.',
+              });
+              onFinished();
+          })
+          .catch((error) => {
+              const permissionError = new FirestorePermissionError({
+                  path: `editorialPosts/${initialData.id}`,
+                  operation: 'update',
+                  requestResourceData: postData,
+              });
+              errorEmitter.emit('permission-error', permissionError);
+              toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'An error occurred while updating.',
+              });
+          });
+      } else {
+        // Create new post
+        const newPostData = {
+            ...postData,
+            publishedAt: serverTimestamp(),
+            createdAt: serverTimestamp(),
+        };
+        addDoc(collection(firestore, 'editorialPosts'), newPostData)
+          .then(() => {
+              toast({
+                title: 'Post Published!',
+                description: 'Your editorial post is now live.',
+              });
+              form.reset();
+              onFinished();
+          })
+          .catch((error) => {
+              const permissionError = new FirestorePermissionError({
+                  path: 'editorialPosts',
+                  operation: 'create',
+                  requestResourceData: newPostData,
+              });
+              errorEmitter.emit('permission-error', permissionError);
+              toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'An error occurred while publishing.',
+              });
+          });
+      }
     });
   }
 
@@ -176,7 +225,7 @@ export default function EditorialForm({ onFinished }: EditorialFormProps) {
 
         <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={isPending || !firestore}>
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isPending ? 'Publishing...' : 'Publish Post'}
+          {isPending ? (initialData ? 'Updating...' : 'Publishing...') : (initialData ? 'Update Post' : 'Publish Post')}
         </Button>
       </form>
     </Form>
