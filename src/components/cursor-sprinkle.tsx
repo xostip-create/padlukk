@@ -35,28 +35,23 @@ export default function CursorSprinkle() {
 
   const addParticle = useCallback((x: number, y: number) => {
     const id = Math.random();
-    // Wider spread for the drifting effect
-    const tx = (Math.random() - 0.5) * 120;
-    const ty = (Math.random() - 0.5) * 120;
-    // Larger size range
-    const size = 10 + Math.random() * 18;
+    const tx = (Math.random() - 0.5) * 100;
+    const ty = (Math.random() - 0.5) * 100;
+    const size = 6 + Math.random() * 10;
     const color = Math.random() > 0.5 ? 'text-primary' : 'text-accent';
     
     const newParticle = { id, x, y, tx, ty, size, color };
     
-    // Increased limit to accommodate longer lifespan
-    setParticles((prev) => [...prev.slice(-40), newParticle]);
+    setParticles((prev) => [...prev.slice(-30), newParticle]);
     
-    // Matched timeout to the 2s animation duration
     setTimeout(() => {
       setParticles((prev) => prev.filter((p) => p.id !== id));
-    }, 2000);
+    }, 1000);
   }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Increased frequency from 15% to 35% for a bolder trail
-      if (Math.random() > 0.65) {
+      if (Math.random() > 0.85) {
         addParticle(e.clientX, e.clientY);
       }
     };
@@ -70,7 +65,7 @@ export default function CursorSprinkle() {
       {particles.map((p) => (
         <div
           key={p.id}
-          className={`absolute pointer-events-none animate-cursor-particle ${p.color} opacity-70`}
+          className={`absolute pointer-events-none animate-cursor-particle ${p.color} opacity-50`}
           style={{
             left: p.x,
             top: p.y,
