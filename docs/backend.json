@@ -104,7 +104,7 @@
     }
   },
   "auth": {
-    "providers": ["email", "google.com"]
+    "providers": ["email"]
   },
   "firestore": {
     "/rsvps/{rsvpId}": {
