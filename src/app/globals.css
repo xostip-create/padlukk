@@ -54,15 +54,19 @@
 
 @layer components {
   /* Rich Text Gallery Styles */
+  .editorial-gallery-container {
+    @apply relative my-16;
+  }
+
   .editorial-gallery-wrapper {
-    @apply flex gap-6 overflow-x-auto py-8 my-12 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory scroll-smooth;
-    /* Custom thin scrollbar for desktop elegance */
+    @apply flex gap-6 overflow-x-auto py-8 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory scroll-smooth;
+    /* Custom thin scrollbar */
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--primary) / 0.2) transparent;
   }
 
   .editorial-gallery-wrapper::-webkit-scrollbar {
-    height: 4px;
+    height: 3px;
   }
 
   .editorial-gallery-wrapper::-webkit-scrollbar-track {
@@ -70,22 +74,35 @@
   }
 
   .editorial-gallery-wrapper::-webkit-scrollbar-thumb {
-    background: hsl(var(--primary) / 0.2);
+    background: hsl(var(--primary) / 0.1);
     border-radius: 10px;
-  }
-
-  .editorial-gallery-wrapper:hover::-webkit-scrollbar-thumb {
-    background: hsl(var(--primary) / 0.5);
   }
 
   .editorial-gallery-item {
     @apply flex-shrink-0 snap-center;
-    width: min(90vw, 600px);
+    width: min(90vw, 650px);
   }
 
   .editorial-gallery-item img {
-    @apply w-full h-[300px] md:h-[500px] object-cover rounded-lg border border-stone-200 shadow-xl transition-transform duration-500 hover:scale-[1.02];
+    @apply w-full h-[350px] md:h-[550px] object-cover rounded-lg border border-stone-200/50 shadow-2xl transition-transform duration-700 hover:scale-[1.01];
     margin: 0 !important;
+  }
+
+  /* Bold Navigation Arrows */
+  .gallery-nav-button {
+    @apply absolute top-1/2 -translate-y-1/2 z-20 bg-black text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 opacity-0 scale-90 group-hover/gallery:opacity-100 group-hover/gallery:scale-100 hover:bg-stone-800 hidden md:flex;
+  }
+
+  .gallery-nav-button.left-arrow {
+    @apply left-6;
+  }
+
+  .gallery-nav-button.right-arrow {
+    @apply right-6;
+  }
+
+  .gallery-nav-button svg {
+    @apply w-6 h-6;
   }
 
   .vertical-text {

@@ -54,7 +54,7 @@ export default function EditorialPostPage() {
       const hasImage = child.querySelector('img') || child.tagName === 'IMG';
       const isOnlyImage = hasImage && child.textContent?.trim() === '';
 
-      if (isOnlyImage) {
+      if (hasImage) {
         currentGroup.push(child as HTMLElement);
       } else {
         if (currentGroup.length > 1) {
@@ -69,11 +69,27 @@ export default function EditorialPostPage() {
     }
 
     groups.forEach((group) => {
+      // Create a outer container for arrows
+      const container = document.createElement('div');
+      container.className = 'editorial-gallery-container group/gallery';
+      
       const wrapper = document.createElement('div');
       wrapper.className = 'editorial-gallery-wrapper';
       
+      // Navigation Arrows
+      const leftBtn = document.createElement('button');
+      leftBtn.className = 'gallery-nav-button left-arrow';
+      leftBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+      
+      const rightBtn = document.createElement('button');
+      rightBtn.className = 'gallery-nav-button right-arrow';
+      rightBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+
       const firstItem = group[0];
-      firstItem.parentNode?.insertBefore(wrapper, firstItem);
+      firstItem.parentNode?.insertBefore(container, firstItem);
+      container.appendChild(wrapper);
+      container.appendChild(leftBtn);
+      container.appendChild(rightBtn);
 
       group.forEach((item) => {
         const img = item.querySelector('img') || (item.tagName === 'IMG' ? item : null);
@@ -85,6 +101,14 @@ export default function EditorialPostPage() {
         }
         item.remove();
       });
+
+      // Arrow Handlers
+      leftBtn.onclick = () => {
+        wrapper.scrollBy({ left: -wrapper.clientWidth * 0.8, behavior: 'smooth' });
+      };
+      rightBtn.onclick = () => {
+        wrapper.scrollBy({ left: wrapper.clientWidth * 0.8, behavior: 'smooth' });
+      };
 
       // Desktop Fix: Convert vertical scroll to horizontal scroll on galleries
       const handleWheel = (e: WheelEvent) => {
