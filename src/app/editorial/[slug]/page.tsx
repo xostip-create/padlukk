@@ -6,7 +6,7 @@ import { Loader2, ArrowLeft, Calendar, User, Share2, Bookmark, Clock, Check } fr
 import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -26,6 +26,7 @@ export default function EditorialPostPage() {
   const params = useParams();
   const slug = params.slug as string;
   const { toast } = useToast();
+  const contentRef = useRef<HTMLDivElement>(null);
   const { data: posts, loading, error } = useCollection<EditorialPost>('editorialPosts', { where: ['slug', '==', slug], limit: 1 });
 
   const post = useMemo(() => posts?.[0] || null, [posts]);
@@ -37,6 +38,55 @@ export default function EditorialPostPage() {
       setIsBookmarked(bookmarks.includes(post.id));
     }
   }, [post]);
+
+  // Solution for horizontal scrolling gallery
+  useEffect(() => {
+    if (!post || !contentRef.current) return;
+
+    // We process the content to group consecutive images into a gallery
+    const content = contentRef.current;
+    const children = Array.from(content.children);
+    
+    let currentGroup: HTMLElement[] = [];
+    const groups: HTMLElement[][] = [];
+
+    children.forEach((child) => {
+      const hasImage = child.querySelector('img') || child.tagName === 'IMG';
+      const isOnlyImage = hasImage && child.textContent?.trim() === '';
+
+      if (isOnlyImage) {
+        currentGroup.push(child as HTMLElement);
+      } else {
+        if (currentGroup.length > 1) {
+          groups.push([...currentGroup]);
+        }
+        currentGroup = [];
+      }
+    });
+    
+    if (currentGroup.length > 1) {
+      groups.push([...currentGroup]);
+    }
+
+    groups.forEach((group) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'editorial-gallery-wrapper';
+      
+      const firstItem = group[0];
+      firstItem.parentNode?.insertBefore(wrapper, firstItem);
+
+      group.forEach((item) => {
+        const img = item.querySelector('img') || (item.tagName === 'IMG' ? item : null);
+        if (img) {
+          const galleryItem = document.createElement('div');
+          galleryItem.className = 'editorial-gallery-item';
+          galleryItem.appendChild(img.cloneNode(true));
+          wrapper.appendChild(galleryItem);
+        }
+        item.remove();
+      });
+    });
+  }, [post, loading]);
 
   const handleBookmark = () => {
     if (!post) return;
@@ -181,6 +231,7 @@ export default function EditorialPostPage() {
             </div>
 
             <div 
+              ref={contentRef}
               className="prose prose-neutral max-w-none text-stone-800 leading-[1.8] text-xl rich-text-content first-letter:text-7xl first-letter:font-headline first-letter:mr-3 first-letter:float-left first-letter:text-primary first-letter:leading-none"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />

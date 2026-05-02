@@ -1,4 +1,3 @@
-
 export type Creator = {
   id: string;
   name: string;
@@ -10,7 +9,6 @@ export type Content = {
   id: string;
   slug: string;
   title: string;
-  excerpt: string;
   type: 'article' | 'photo_essay' | 'video';
   category: 'Fashion' | 'Art' | 'Music';
   creatorId: string;
@@ -44,7 +42,6 @@ export const content: Content[] = [
     id: 'content-1',
     slug: 'the-sculpture-of-sound',
     title: 'The Sculpture of Sound',
-    excerpt: 'An exploration into how contemporary artists are using sound as a medium for sculpture.',
     type: 'article',
     category: 'Art',
     creatorId: 'creator-1',
@@ -55,7 +52,6 @@ export const content: Content[] = [
     id: 'content-2',
     slug: 'future-fabric-sustainable-fashion',
     title: 'Future Fabric: A New Era of Sustainable Fashion',
-    excerpt: 'A deep dive into the innovative materials shaping the future of the fashion industry.',
     type: 'article',
     category: 'Fashion',
     creatorId: 'creator-3',
@@ -66,7 +62,6 @@ export const content: Content[] = [
     id: 'content-3',
     slug: 'concrete-jungle-photo-essay',
     title: 'Concrete Jungle: A Photo Essay',
-    excerpt: 'A visual journey through the hidden architectural wonders of major metropolises.',
     type: 'photo_essay',
     category: 'Art',
     creatorId: 'creator-1',
@@ -77,7 +72,6 @@ export const content: Content[] = [
     id: 'content-4',
     slug: 'rhythm-of-the-city-video',
     title: 'Rhythm of the City',
-    excerpt: 'A short film capturing the vibrant pulse of the underground music scenes across Europe.',
     type: 'video',
     category: 'Music',
     creatorId: 'creator-2',
@@ -88,7 +82,6 @@ export const content: Content[] = [
     id: 'content-5',
     slug: 'the-neo-minimalist-movement',
     title: 'The Neo-Minimalist Movement in Fashion',
-    excerpt: 'How designers are redefining minimalism with a focus on form, function, and feeling.',
     type: 'photo_essay',
     category: 'Fashion',
     creatorId: 'creator-3',
@@ -99,7 +92,6 @@ export const content: Content[] = [
     id: 'content-6',
     slug: 'indie-anthems-reimagined',
     title: 'Indie Anthems Reimagined: Acoustic Sessions',
-    excerpt: 'A collection of intimate performances from today\'s most exciting indie artists.',
     type: 'video',
     category: 'Music',
     creatorId: 'creator-2',

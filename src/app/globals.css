@@ -51,3 +51,30 @@
     background-attachment: fixed;
   }
 }
+
+@layer components {
+  /* Rich Text Gallery Styles */
+  .editorial-gallery-wrapper {
+    @apply flex gap-6 overflow-x-auto py-8 my-12 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .editorial-gallery-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .editorial-gallery-item {
+    @apply flex-shrink-0 snap-center;
+    width: min(90vw, 600px);
+  }
+
+  .editorial-gallery-item img {
+    @apply w-full h-[300px] md:h-[500px] object-cover rounded-lg border border-stone-200 shadow-xl transition-transform duration-500 hover:scale-[1.02];
+    margin: 0 !important;
+  }
+
+  .vertical-text {
+    writing-mode: vertical-rl;
+  }
+}
