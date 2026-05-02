@@ -260,7 +260,7 @@ export default function EditorialPostPage() {
 
             <div 
               ref={contentRef}
-              className="prose prose-neutral max-w-none text-stone-950 leading-[1.45] text-xl rich-text-content text-justify hyphens-auto first-letter:text-7xl first-letter:font-headline first-letter:mr-3 first-letter:float-left first-letter:text-primary first-letter:leading-none [&_p]:mb-1 [&_p]:block"
+              className="prose prose-neutral max-w-none text-stone-950 leading-[1.45] text-xl rich-text-content text-justify hyphens-auto first-letter:text-7xl first-letter:font-headline first-letter:mr-3 first-letter:float-left first-letter:text-primary first-letter:leading-none [&_p]:mb-1 [&_p:has(strong)]:mt-12 [&_p:has(strong)]:mb-4 [&_p]:block"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
