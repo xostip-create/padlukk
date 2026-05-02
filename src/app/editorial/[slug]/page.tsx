@@ -52,8 +52,6 @@ export default function EditorialPostPage() {
     // Identify consecutive images for gallery grouping
     children.forEach((child) => {
       const hasImage = child.querySelector('img') || child.tagName === 'IMG';
-      const isOnlyImage = hasImage && child.textContent?.trim() === '';
-
       if (hasImage) {
         currentGroup.push(child as HTMLElement);
       } else {
@@ -69,14 +67,12 @@ export default function EditorialPostPage() {
     }
 
     groups.forEach((group) => {
-      // Create a outer container for arrows
       const container = document.createElement('div');
       container.className = 'editorial-gallery-container group/gallery';
       
       const wrapper = document.createElement('div');
       wrapper.className = 'editorial-gallery-wrapper';
       
-      // Navigation Arrows
       const leftBtn = document.createElement('button');
       leftBtn.className = 'gallery-nav-button left-arrow';
       leftBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
@@ -102,7 +98,6 @@ export default function EditorialPostPage() {
         item.remove();
       });
 
-      // Arrow Handlers
       leftBtn.onclick = () => {
         wrapper.scrollBy({ left: -wrapper.clientWidth * 0.8, behavior: 'smooth' });
       };
@@ -110,7 +105,6 @@ export default function EditorialPostPage() {
         wrapper.scrollBy({ left: wrapper.clientWidth * 0.8, behavior: 'smooth' });
       };
 
-      // Desktop Fix: Convert vertical scroll to horizontal scroll on galleries
       const handleWheel = (e: WheelEvent) => {
         if (e.deltaY !== 0) {
           e.preventDefault();
@@ -266,7 +260,7 @@ export default function EditorialPostPage() {
 
             <div 
               ref={contentRef}
-              className="prose prose-neutral max-w-none text-stone-800 leading-[1.8] text-xl rich-text-content first-letter:text-7xl first-letter:font-headline first-letter:mr-3 first-letter:float-left first-letter:text-primary first-letter:leading-none"
+              className="prose prose-neutral max-w-none text-stone-800 leading-[1.8] text-xl rich-text-content text-justify hyphens-auto first-letter:text-7xl first-letter:font-headline first-letter:mr-3 first-letter:float-left first-letter:text-primary first-letter:leading-none [&_p]:mb-8 [&_p]:block"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
@@ -288,8 +282,6 @@ export default function EditorialPostPage() {
           {/* Right Side: Metadata & Actions Box */}
           <div className="lg:col-span-4 lg:pl-12">
             <div className="sticky top-32 space-y-12">
-              
-              {/* Context Box */}
               <div className="p-8 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-8">
                 <div className="space-y-4">
                   <h4 className="text-[10px] tracking-[0.3em] uppercase text-primary font-bold">Context</h4>
@@ -324,19 +316,6 @@ export default function EditorialPostPage() {
                 </div>
               </div>
 
-              {/* Decorative Brand Element */}
-              <div className="hidden lg:block pt-8 text-center space-y-4">
-                 <div className="flex justify-center">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="text-stone-200">
-                      <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="1" />
-                      <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="1" />
-                      <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="1" />
-                    </svg>
-                 </div>
-                 <p className="text-[10px] tracking-[0.5em] uppercase text-stone-300 font-headline">Padluckk Studios</p>
-              </div>
-
-              {/* Quick Links */}
               <div className="space-y-6">
                  <h4 className="text-[10px] tracking-[0.3em] uppercase text-stone-300 font-bold">Check out</h4>
                  <Link href="/world" className="group block space-y-2">
