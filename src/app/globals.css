@@ -55,13 +55,27 @@
 @layer components {
   /* Rich Text Gallery Styles */
   .editorial-gallery-wrapper {
-    @apply flex gap-6 overflow-x-auto py-8 my-12 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    @apply flex gap-6 overflow-x-auto py-8 my-12 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory scroll-smooth;
+    /* Custom thin scrollbar for desktop elegance */
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.2) transparent;
   }
 
   .editorial-gallery-wrapper::-webkit-scrollbar {
-    display: none;
+    height: 4px;
+  }
+
+  .editorial-gallery-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .editorial-gallery-wrapper::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.2);
+    border-radius: 10px;
+  }
+
+  .editorial-gallery-wrapper:hover::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.5);
   }
 
   .editorial-gallery-item {

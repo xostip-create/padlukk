@@ -39,17 +39,17 @@ export default function EditorialPostPage() {
     }
   }, [post]);
 
-  // Solution for horizontal scrolling gallery
+  // Process content to create horizontal galleries and add desktop scroll fixes
   useEffect(() => {
     if (!post || !contentRef.current) return;
 
-    // We process the content to group consecutive images into a gallery
     const content = contentRef.current;
     const children = Array.from(content.children);
     
     let currentGroup: HTMLElement[] = [];
     const groups: HTMLElement[][] = [];
 
+    // Identify consecutive images for gallery grouping
     children.forEach((child) => {
       const hasImage = child.querySelector('img') || child.tagName === 'IMG';
       const isOnlyImage = hasImage && child.textContent?.trim() === '';
@@ -85,6 +85,16 @@ export default function EditorialPostPage() {
         }
         item.remove();
       });
+
+      // Desktop Fix: Convert vertical scroll to horizontal scroll on galleries
+      const handleWheel = (e: WheelEvent) => {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          wrapper.scrollLeft += e.deltaY;
+        }
+      };
+
+      wrapper.addEventListener('wheel', handleWheel as any, { passive: false });
     });
   }, [post, loading]);
 
