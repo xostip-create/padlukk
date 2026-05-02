@@ -244,7 +244,7 @@ export default function EditorialPostPage() {
           </div>
 
           {/* Center: Main Content */}
-          <div className="lg:col-span-7 space-y-16">
+          <div className="lg:col-span-7 space-y-12">
             <div className="flex flex-wrap items-center gap-x-12 gap-y-6 text-[10px] tracking-widest uppercase text-stone-500 font-bold border-b border-stone-200 pb-8">
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center border border-stone-200">
@@ -260,7 +260,7 @@ export default function EditorialPostPage() {
 
             <div 
               ref={contentRef}
-              className="prose prose-neutral max-w-none text-stone-800 leading-[1.8] text-xl rich-text-content text-justify hyphens-auto first-letter:text-7xl first-letter:font-headline first-letter:mr-3 first-letter:float-left first-letter:text-primary first-letter:leading-none [&_p]:mb-8 [&_p]:block"
+              className="prose prose-neutral max-w-none text-stone-950 leading-[1.65] text-xl rich-text-content text-justify hyphens-auto first-letter:text-7xl first-letter:font-headline first-letter:mr-3 first-letter:float-left first-letter:text-primary first-letter:leading-none [&_p]:mb-5 [&_p]:block"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
